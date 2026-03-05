@@ -1096,31 +1096,71 @@ async function sendMessage(text) {
       })
     });
 
+    if (!response.ok) {
+      const errText = await response.text().catch(() => '');
+      throw new Error(errText || `HTTP ${response.status}`);
+    }
+
+    if (!response.body) {
+      throw new Error('Streaming nicht verfügbar (response.body fehlt)');
+    }
+
     removeTyping();
     const msgId = addMessage('bot', '', true);
     let fullText = '';
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+    let buffer = '';
+    let sawMessageStop = false;
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
 
-      const chunk = decoder.decode(value);
-      for (const line of chunk.split('\n')) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          if (data === '[DONE]') break;
-          try {
-            const parsed = JSON.parse(data);
-            if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-              fullText += parsed.delta.text;
-              updateBubble(msgId, fullText, false);
-            }
-          } catch {}
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+
+      for (let rawLine of lines) {
+        const line = rawLine.replace(/\r$/, '');
+        if (!line.startsWith('data: ')) continue;
+
+        const data = line.slice(6).trim();
+        if (!data) continue;
+        if (data === '[DONE]') {
+          sawMessageStop = true;
+          break;
+        }
+
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+            fullText += parsed.delta.text;
+            updateBubble(msgId, fullText, false);
+          }
+          if (parsed.type === 'message_stop') {
+            sawMessageStop = true;
+            break;
+          }
+        } catch {
+          // ignore partial/invalid JSON lines
         }
       }
+
+      if (sawMessageStop) break;
+    }
+
+    // flush remaining buffered line (optional)
+    const tail = (buffer || '').trim();
+    if (tail.startsWith('data: ')) {
+      const data = tail.slice(6).trim();
+      try {
+        const parsed = JSON.parse(data);
+        if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+          fullText += parsed.delta.text;
+        }
+      } catch {}
     }
 
     updateBubble(msgId, fullText, true);
@@ -1128,7 +1168,7 @@ async function sendMessage(text) {
 
   } catch (err) {
     removeTyping();
-    addMessage('bot', `⚠️ Verbindungsfehler: ${err.message}. Bitte Seite neu laden.`);
+    addMessage('bot', `⚠️ Fehler: ${err.message || 'Unbekannt'}.`);
   }
 
   isLoading = false;
