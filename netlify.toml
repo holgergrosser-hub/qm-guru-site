@@ -22,6 +22,12 @@
 
 # Short URLs
 [[redirects]]
+  from = "/"
+  to = "/ki-berater.html"
+  status = 301
+  conditions = { Host = "iso-9001.qm-guru.de" }
+
+[[redirects]]
   from = "/audit"
   to = "/fragebogen.html"
   status = 301
