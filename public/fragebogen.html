@@ -1285,7 +1285,7 @@ function openGapReport() {
     return;
   }
   localStorage.setItem('onlinecert.latest_audit_export', text);
-  window.location.href = '/gap-report.html';
+  window.location.href = '/gap-report.html?autostart=1';
 }
 
 function downloadJSON() {

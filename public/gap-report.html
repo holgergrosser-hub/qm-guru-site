@@ -1301,14 +1301,16 @@ async function handleDocFiles(fileList) {
 function tryLoadAuditFromStorage() {
   try {
     const stored = localStorage.getItem('onlinecert.latest_audit_export');
-    if (!stored) return;
+    if (!stored) return false;
     const textarea = document.getElementById('jsonPaste');
-    if (!textarea) return;
+    if (!textarea) return false;
     textarea.value = stored;
     validateJson();
     localStorage.removeItem('onlinecert.latest_audit_export');
+    return true;
   } catch {
     // ignore storage errors
+    return false;
   }
 }
 
@@ -1366,7 +1368,28 @@ function validateJson() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  tryLoadAuditFromStorage();
+  const loadedFromStorage = tryLoadAuditFromStorage();
+
+  const params = new URLSearchParams(window.location.search);
+  const autostart = params.get('autostart');
+  const shouldAutostart = autostart === '1' || autostart === 'true';
+  if (!shouldAutostart) return;
+
+  // Autostart only makes sense when data is present (typically coming from Self-Audit).
+  const raw = (document.getElementById('jsonPaste')?.value || '').trim();
+  if (!raw) return;
+
+  // Ensure JSON validation state is up to date.
+  validateJson();
+
+  if (!isValid || !auditData) return;
+
+  // Give the browser one tick to paint the filled form/status.
+  setTimeout(() => {
+    // Prevent accidental autostart if user came here without a handoff.
+    if (!loadedFromStorage) return;
+    generateReport();
+  }, 50);
 });
 
 async function generateReport() {
