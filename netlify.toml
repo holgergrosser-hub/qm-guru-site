@@ -25,7 +25,8 @@
   from = "/"
   to = "/ki-berater.html"
   status = 301
-  conditions = { Host = "iso-9001.qm-guru.de" }
+  force = true
+  conditions = { Host = "iso9001.qm-guru.de" }
 
 [[redirects]]
   from = "/audit"
