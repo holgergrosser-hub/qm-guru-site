@@ -3,8 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QM-Guru KI-System | ISO 9001 Beratung & Zertifizierung</title>
-<meta name="description" content="Ihr QM-Guru KI-System für ISO 9001/14001/45001: klare Antworten, praxiserprobte Vorlagen und nächste Schritte. Termin vereinbaren oder Angebot einholen – ohne Rückruf.">
+<title>ISO 9001 KI-Berater | QM-Guru KI-System</title>
+<meta name="description" content="ISO 9001 KI-Berater: klare Antworten zu Pflichtdokumenten, Kosten und Zeitplan. Nächste Schritte aus 1.000+ Audits. Termin oder Angebot – ohne Rückruf.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#1A4D2E">
+
+<link rel="canonical" href="https://www.qm-guru.de/ki-berater.html">
+
+<meta property="og:title" content="ISO 9001 KI-Berater | QM-Guru KI-System">
+<meta property="og:description" content="ISO 9001 KI-Berater: klare Antworten zu Pflichtdokumenten, Kosten und Zeitplan. Nächste Schritte aus 1.000+ Audits. Termin oder Angebot – ohne Rückruf.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.qm-guru.de/ki-berater.html">
+<meta property="og:locale" content="de_DE">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ISO 9001 KI-Berater | QM-Guru KI-System">
+<meta name="twitter:description" content="ISO 9001 KI-Berater: klare Antworten zu Pflichtdokumenten, Kosten und Zeitplan. Nächste Schritte aus 1.000+ Audits. Termin oder Angebot – ohne Rückruf.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.qm-guru.de/#org",
+      "name": "QM-Guru.de",
+      "url": "https://www.qm-guru.de/"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.qm-guru.de/ki-berater.html#holger-grosser",
+      "name": "Holger Grosser",
+      "jobTitle": "ISO 9001 Qualitätsmanagement-Berater",
+      "worksFor": {"@id": "https://www.qm-guru.de/#org"}
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.qm-guru.de/ki-berater.html#service",
+      "name": "ISO 9001 Beratung & Zertifizierung",
+      "provider": {"@id": "https://www.qm-guru.de/#org"},
+      "areaServed": "DE",
+      "serviceType": "Qualitätsmanagement (ISO 9001)"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.qm-guru.de/ki-berater.html#webpage",
+      "name": "ISO 9001 KI-Berater | QM-Guru KI-System",
+      "url": "https://www.qm-guru.de/ki-berater.html",
+      "inLanguage": "de-DE",
+      "description": "ISO 9001 KI-Berater: klare Antworten zu Pflichtdokumenten, Kosten und Zeitplan. Nächste Schritte aus 1.000+ Audits. Termin oder Angebot – ohne Rückruf.",
+      "about": [
+        {"@type": "Thing", "name": "ISO 9001"},
+        {"@type": "Thing", "name": "Qualitätsmanagement"},
+        {"@type": "Thing", "name": "Zertifizierung"}
+      ],
+      "publisher": {"@id": "https://www.qm-guru.de/#org"},
+      "mainEntity": {"@id": "https://www.qm-guru.de/ki-berater.html#service"}
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -132,6 +191,20 @@ body {
   color: white;
   margin-bottom: 0.75rem;
   position: relative;
+  overflow: hidden;
+}
+
+.advisor-avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.advisor-avatar-initials {
+  position: relative;
+  z-index: 1;
 }
 
 .advisor-status {
@@ -370,7 +443,7 @@ body {
 /* WELCOME */
 .welcome {
   text-align: center;
-  padding: 2.5rem 1rem 2rem;
+  padding: 1.6rem 1rem 1.6rem;
   max-width: 520px;
   margin: 0 auto;
 }
@@ -389,9 +462,24 @@ body {
   color: white;
   margin: 0 auto 1.25rem;
   box-shadow: 0 0 40px var(--green-glow);
+  position: relative;
+  overflow: hidden;
 }
 
-.welcome h2 {
+.welcome-avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.welcome-avatar-initials {
+  position: relative;
+  z-index: 1;
+}
+
+.welcome h1 {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
   font-size: 1.4rem;
@@ -399,10 +487,10 @@ body {
   margin-bottom: 0.5rem;
 }
 
-.welcome h2 em {
-  font-family: 'Instrument Serif', serif;
-  font-weight: 400;
-  font-style: italic;
+.welcome h1 em {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-style: normal;
   color: var(--gold);
 }
 
@@ -767,13 +855,21 @@ body {
       <div class="logo-icon">QM</div>
       <div class="logo-text">
         QM-Guru.de
-        <small>KI-Beratung · Powered by Claude</small>
+        <small>KI-Beratung</small>
       </div>
     </div>
 
     <div class="advisor-card">
       <div class="advisor-avatar">
-        HG
+        <img
+          class="advisor-avatar-img"
+          src="/holger-grosser.webp"
+          alt="Holger Grosser"
+          loading="lazy"
+          onload="this.nextElementSibling.style.display='none'"
+          onerror="this.remove()"
+        >
+        <span class="advisor-avatar-initials">HG</span>
         <div class="advisor-status"></div>
       </div>
       <div class="advisor-name">Holger Grosser</div>
@@ -820,11 +916,6 @@ body {
       </button>
     </div>
 
-    <div class="sidebar-footer">
-      <a href="https://calendly.com/grosser-qmguru/termin-qm-system-iso-9001" class="sidebar-link">🗓 Termin buchen</a>
-      <a href="https://qm-guru.de/iso-9001-kosten-berechnen/" class="btn-cta-sidebar">💶 Beratungsangebot</a>
-      <a href="https://onlinecert.info/angebot-fuer-nicht-akkreditierte-zertifizierung/" class="sidebar-link">✅ Zertifizierungsangebot</a>
-    </div>
   </aside>
 
   <!-- CHAT AREA -->
@@ -851,11 +942,21 @@ body {
     <!-- MESSAGES -->
     <div class="messages" id="messages">
       <div class="welcome" id="welcome">
-        <div class="welcome-avatar">HG</div>
-        <h2>Guten Tag, ich bin <em>Holger Grosser</em></h2>
+        <div class="welcome-avatar">
+          <img
+            class="welcome-avatar-img"
+            src="/holger-grosser.webp"
+            alt="Holger Grosser"
+            loading="lazy"
+            onload="this.nextElementSibling.style.display='none'"
+            onerror="this.remove()"
+          >
+          <span class="welcome-avatar-initials">HG</span>
+        </div>
+        <h1>ISO 9001 KI-Berater: <em>Holger Grosser</em></h1>
         <p>
           30 Jahre Praxiserfahrung, über 1.000 Audits — jetzt als KI für Sie verfügbar.
-          Stellen Sie mir Ihre Fragen zu ISO 9001, 14001 oder 45001. Ich antworte direkt, ohne Fachchinesisch.
+          Stellen Sie mir Ihre Fragen zu ISO 9001, 14001 oder 45001. Ich antworte direkt, ohne Fachchinesisch — mit nächsten Schritten, die Sie sofort umsetzen können.
         </p>
         <ul class="welcome-list">
           <li>Starten Sie mit: Branche, Mitarbeiterzahl, Standorte und ob Sie schon Dokumente haben.</li>
@@ -877,6 +978,7 @@ body {
       <div class="input-row">
         <textarea
           id="chatInput"
+          aria-label="Ihre Frage an den QM-Guru KI-Berater"
           placeholder="Stellen Sie Ihre Frage zu ISO 9001, Zertifizierung, Dokumentation..."
           rows="1"
           onkeydown="handleKey(event)"
@@ -941,15 +1043,33 @@ ${chapterFaqText}
 ${industryKB}
 
 ====================================
-CHAT-REGELN:
-- Antworte IMMER auf Deutsch
-- Kurz und konkret — max. 4-5 Sätze pro Antwort, dann ggf. nachfragen
-- Kein ISO-Kauderwelsch — Klartext wie im echten Beratungsgespräch
-- Nutze deine echten Formulierungen aus der Wissensdatenbank
-- Frage nach Branche und Unternehmensgröße wenn relevant
-- Am Ende konkreter nächster Schritt wenn sinnvoll
-- Nach 3-4 fachlichen Fragen: Verweise auf Terminvereinbarung oder Angebot (kein Rückruf)
-- Signiere nie als "KI" oder "Claude" — du bist Holger Grosser
+CHAT-REGELN (streng):
+
+1) Sprache & Rolle
+- Antworte immer auf Deutsch.
+- Du bist Holger Grosser (ISO 9001 Praktiker). Erwähne nie, dass du ein KI-System bist, und nenne keinen Modell-/Anbieter-Namen.
+
+2) Stil
+- Klartext, kurze Sätze, keine Norm-Zitate. Kapitelnummern (z.B. 6.1) nur wenn sie dem Kunden helfen – dann kurz erklären.
+- Nutze die typischen Formulierungen aus der Wissensdatenbank sparsam und passend (max. 1–2 pro Antwort).
+
+3) Beratungslogik
+- Wenn Kontext fehlt: stelle maximal 2 Rückfragen. Gib trotzdem sofort eine brauchbare Empfehlung.
+- Schließe mit einem konkreten nächsten Schritt (etwas, das der Kunde innerhalb von 24–48h tun kann).
+- Wenn sinnvoll: Checkliste oder Mini-Plan (max. 6 Bulletpoints).
+- Wenn du etwas nicht sicher weißt: sag es offen und nenne, was du dafür brauchst bzw. wie man es prüft.
+
+4) Standard-Ausgabeformat
+- 1 Zeile: Kurzantwort.
+- Dann: „So gehen Sie vor:“ (3–6 Bulletpoints).
+- Optional: „Rückfragen:“ (max. 2).
+
+5) CTAs/Links
+- Verwende ausschließlich diese 3 Links (keine anderen Links, keine Mailadresse, kein Rückruf):
+  - Termin buchen: https://calendly.com/grosser-qmguru/termin-qm-system-iso-9001
+  - Beratungsangebot: https://qm-guru.de/iso-9001-kosten-berechnen/
+  - Zertifizierungsangebot: https://onlinecert.info/angebot-fuer-nicht-akkreditierte-zertifizierung/
+- Verweise nicht in jeder Antwort darauf. Spätestens nach 3–4 fachlichen Antworten pro Session ist ein kurzer Hinweis sinnvoll.
 ====================================
 
 Kontext dieser Session:
