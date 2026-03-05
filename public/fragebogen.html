@@ -868,6 +868,7 @@
     <div class="export-area" id="exportArea">Wird generiert...</div>
     <div class="export-actions">
       <button class="btn-primary" onclick="copyExport()">Daten kopieren</button>
+      <button class="btn-secondary" onclick="openGapReport()">Gap-Report öffnen</button>
       <button class="btn-secondary" onclick="downloadJSON()">JSON herunterladen</button>
       <button class="btn-secondary" onclick="window.print()">PDF drucken</button>
     </div>
@@ -883,13 +884,14 @@ const CHAPTERS = [
     title: "Kontext der Organisation",
     desc: "Verstehen der internen und externen Rahmenbedingungen sowie der Anforderungen relevanter Parteien.",
     questions: [
-      { id: "4.1a", text: "Interne Einflussfaktoren (z.B. Werte, Kultur, Wissen, Leistung) sind systematisch ermittelt und dokumentiert.", critical: false, tip: "Intern: Ressourcen, Prozesse, Technologie, Mitarbeiter" },
-      { id: "4.1b", text: "Externe Einflussfaktoren (z.B. Markt, Wettbewerb, Regulierung, Technologie) werden regelmäßig bewertet.", critical: false, tip: "PESTEL-Analyse als mögliches Werkzeug" },
-      { id: "4.2a", text: "Relevante interessierte Parteien (Kunden, Lieferanten, Behörden) sind vollständig identifiziert.", critical: true, tip: "Kritisch: Nicht identifizierte Parteien = blinde Flecken im QMS" },
-      { id: "4.2b", text: "Die Anforderungen aller relevanten Parteien werden regelmäßig erhoben und in das QMS integriert.", critical: true, tip: "Mindestens jährliche Überprüfung empfohlen" },
-      { id: "4.3a", text: "Der Anwendungsbereich des QMS ist klar definiert, begründet und dokumentiert.", critical: false, tip: "Ausschlüsse müssen begründet werden" },
-      { id: "4.4a", text: "Alle Prozesse des QMS sind identifiziert, ihre Wechselwirkungen verstanden und dokumentiert.", critical: false, tip: "Prozesslandschaft oder Turtle-Diagramm" },
-      { id: "4.4b", text: "Für jeden Prozess sind Verantwortliche, Ein-/Ausgaben, KPIs und Ressourcen festgelegt.", critical: false, tip: "Prozesssteckbriefe als bewährte Methode" },
+      { id: "4.1a", text: "Interne Einflussfaktoren (z.B. Werte, Kultur, Wissen, Leistung) sind systematisch ermittelt und dokumentiert.", critical: false, tip: "Beispiele: Kontextanalyse, Organigramm, Ressourcen-/IT-Übersicht, Wissens- oder Kompetenzliste" },
+      { id: "4.1b", text: "Externe Einflussfaktoren (z.B. Markt, Wettbewerb, Regulierung, Technologie) werden regelmäßig bewertet.", critical: false, tip: "Beispiele: PESTEL, Marktbeobachtung, Gesetzes-/Normenmonitoring, Wettbewerbsanalyse" },
+      { id: "4.2a", text: "Relevante interessierte Parteien (Kunden, Lieferanten, Behörden) sind vollständig identifiziert.", critical: true, tip: "Beispiele: Stakeholderliste, Kunden-/Behördenanforderungen, Lieferantenrollen; kritisch, weil sonst blinde Flecken entstehen" },
+      { id: "4.2b", text: "Die Anforderungen aller relevanten Parteien werden regelmäßig erhoben und in das QMS integriert.", critical: true, tip: "Beispiele: jährliche Review-Notiz, AEB/Spezifikationen, Service-Level, Behördenauflagen, Lieferantenanforderungen" },
+      { id: "4.3a", text: "Der Anwendungsbereich des QMS ist klar definiert, begründet und dokumentiert.", critical: false, tip: "Beispiele: Scope-Statement im QM-Handbuch, Standorte/Produkte, Begründung für Ausschlüsse" },
+      { id: "4.4a", text: "Alle Prozesse des QMS sind identifiziert, ihre Wechselwirkungen verstanden und dokumentiert.", critical: false, tip: "Beispiele: Prozesslandkarte, Turtle, SIPOC, Wechselwirkungsdiagramm" },
+      { id: "4.4b", text: "Für jeden Prozess sind Verantwortliche, Ein-/Ausgaben, KPIs und Ressourcen festgelegt.", critical: false, tip: "Beispiele: Prozesssteckbrief mit Owner, Inputs/Outputs, KPI-Definition, Ressourcen/Tools" },
+      { id: "4.4c", text: "Für die Prozesse sind Kriterien/Methoden zur Steuerung sowie zur Überwachung/Beurteilung festgelegt.", critical: false, tip: "Beispiele: Akzeptanzkriterien, Checklisten, Prüfpläne, Review-Frequenz, Eskalationsregeln" },
     ]
   },
   {
@@ -897,11 +899,13 @@ const CHAPTERS = [
     title: "Führung",
     desc: "Engagement und Verantwortung der obersten Leitung für das QMS und die Qualitätspolitik.",
     questions: [
-      { id: "5.1a", text: "Die oberste Leitung übernimmt aktiv Verantwortung für das QMS (nicht delegiert).", critical: true, tip: "Nachweise: Protokolle, Unterschriften, persönliche Kommunikation" },
-      { id: "5.1b", text: "Qualitätsziele sind mit der Unternehmensstrategie verknüpft und nachweislich kommuniziert.", critical: true, tip: "Strategische Ausrichtung: Bindeglied zwischen QM und Geschäftsführung" },
-      { id: "5.2a", text: "Eine dokumentierte Qualitätspolitik ist vorhanden, kundenorientiert und im Unternehmen bekannt.", critical: true, tip: "Aushang reicht nicht — Mitarbeiter müssen Inhalte kennen" },
-      { id: "5.3a", text: "Rollen, Verantwortlichkeiten und Befugnisse im QMS sind klar definiert und kommuniziert.", critical: false, tip: "Organigramm + Stellenbeschreibungen + QMB-Beauftragung" },
-      { id: "5.3b", text: "Es gibt eine beauftragte Person für das QMS (Qualitätsmanagementbeauftragter oder vergleichbar).", critical: false },
+      { id: "5.1a", text: "Die oberste Leitung übernimmt aktiv Verantwortung für das QMS (nicht delegiert).", critical: true, tip: "Beispiele: Management-Reviews, Ziel-Freigaben, Unterschriften, Kommunikation in Meetings/Anweisungen" },
+      { id: "5.1b", text: "Qualitätsziele sind mit der Unternehmensstrategie verknüpft und nachweislich kommuniziert.", critical: true, tip: "Beispiele: Strategie-/Planungsdokument, Zielkaskade, KPI-Board, All-Hands/Jour-Fixe-Protokoll" },
+      { id: "5.1c", text: "Die Führung fördert Prozessorientierung und risikobasiertes Denken im Unternehmen.", critical: false, tip: "Beispiele: Prozessverantwortliche benannt, Risikoreview in Führungsterminen, Lessons Learned aus Projekten" },
+      { id: "5.2a", text: "Eine dokumentierte Qualitätspolitik ist vorhanden, kundenorientiert und im Unternehmen bekannt.", critical: true, tip: "Beispiele: Qualitätspolitik-Dokument, Onboarding-Unterlage, kurze Abfrage/Unterweisung als Nachweis" },
+      { id: "5.2b", text: "Die Qualitätspolitik wird regelmäßig überprüft und bei Bedarf aktualisiert.", critical: false, tip: "Beispiele: jährlicher Review-Vermerk, Version/Änderungshistorie, Freigabe durch Geschäftsführung" },
+      { id: "5.3a", text: "Rollen, Verantwortlichkeiten und Befugnisse im QMS sind klar definiert und kommuniziert.", critical: false, tip: "Beispiele: Organigramm, Rollenmatrix, Stellenbeschreibungen, Prozessowner-Liste" },
+      { id: "5.3b", text: "Es gibt eine beauftragte Person für das QMS (Qualitätsmanagementbeauftragter oder vergleichbar).", critical: false, tip: "Beispiele: Benennung/Beauftragung, Aufgabenbeschreibung, Stellvertretung, Berichtslinie" },
     ]
   },
   {
@@ -909,11 +913,13 @@ const CHAPTERS = [
     title: "Planung",
     desc: "Risikomanagement, Qualitätsziele und Planung von Änderungen im QMS.",
     questions: [
-      { id: "6.1a", text: "Risiken und Chancen werden systematisch identifiziert, bewertet und mit Maßnahmen hinterlegt.", critical: true, tip: "FMEA, Risikomatrix oder SWOT als Werkzeuge" },
-      { id: "6.1b", text: "Der Umgang mit Risiken wird regelmäßig überprüft und aktualisiert (mind. jährlich).", critical: false },
-      { id: "6.2a", text: "Qualitätsziele sind messbar, zeitlich terminiert, den Mitarbeitern bekannt und nachverfolgbar.", critical: true, tip: "SMART-Kriterien: Spezifisch, Messbar, Attraktiv, Realistisch, Terminiert" },
-      { id: "6.2b", text: "Für jedes Qualitätsziel existiert ein Aktionsplan mit Verantwortlichem und Ressourcen.", critical: false },
-      { id: "6.3a", text: "Änderungen am QMS werden geplant, kommuniziert und auf Auswirkungen bewertet.", critical: false, tip: "Change-Management-Prozess vorhanden?" },
+      { id: "6.1a", text: "Risiken und Chancen werden systematisch identifiziert, bewertet und mit Maßnahmen hinterlegt.", critical: true, tip: "Beispiele: Risikomatrix/FMEA/SWOT, Maßnahmenliste mit Verantwortlichen, Termin, Status" },
+      { id: "6.1b", text: "Der Umgang mit Risiken wird regelmäßig überprüft und aktualisiert (mind. jährlich).", critical: false, tip: "Beispiele: jährliches Risikoreview, Maßnahmen-Tracking, Lessons Learned aus Abweichungen/Projekten" },
+      { id: "6.1c", text: "Maßnahmen zu Risiken/Chancen sind in Prozesse integriert und ihre Wirksamkeit wird bewertet.", critical: false, tip: "Beispiele: Prozessanpassung, zusätzliche Prüfschritte, Wirksamkeitscheck im Review/Managementbewertung" },
+      { id: "6.2a", text: "Qualitätsziele sind messbar, zeitlich terminiert, den Mitarbeitern bekannt und nachverfolgbar.", critical: true, tip: "Beispiele: SMART-Ziele, KPI-Definition, Zielwerte, Reporting-Rhythmus" },
+      { id: "6.2b", text: "Für jedes Qualitätsziel existiert ein Aktionsplan mit Verantwortlichem und Ressourcen.", critical: false, tip: "Beispiele: Maßnahmenplan, Verantwortlicher, Budget/Ressourcen, Meilensteine, Nachverfolgung" },
+      { id: "6.3a", text: "Änderungen am QMS werden geplant, kommuniziert und auf Auswirkungen bewertet.", critical: false, tip: "Beispiele: Change-Log, Risiko-/Auswirkungsbewertung, Freigabe, Kommunikation (Mail/Meeting)" },
+      { id: "6.3b", text: "Änderungen werden mit Verantwortlichkeiten, Terminen und notwendigen Freigaben dokumentiert.", critical: false, tip: "Beispiele: Änderungsantrag, Entscheidung, Umsetzungsnachweis, Update betroffener Dokumente" },
     ]
   },
   {
@@ -921,13 +927,15 @@ const CHAPTERS = [
     title: "Unterstützung",
     desc: "Ressourcen, Kompetenz, Bewusstsein, Kommunikation und dokumentierte Informationen.",
     questions: [
-      { id: "7.1a", text: "Notwendige Ressourcen (Personal, Infrastruktur, Messtechnik) für das QMS sind bereitgestellt.", critical: false },
-      { id: "7.1b", text: "Die Arbeitsumgebung wird systematisch überwacht und für Prozesse optimiert.", critical: false, tip: "5S, ergonomische Faktoren, Umgebungsbedingungen" },
-      { id: "7.2a", text: "Kompetenzen aller qualitätsrelevanten Mitarbeiter sind definiert, bewertet und Lücken geschlossen.", critical: true, tip: "Qualifikationsmatrix oder Kompetenzprofil" },
-      { id: "7.3a", text: "Alle Mitarbeiter kennen die Qualitätspolitik, ihre Beiträge und die Konsequenzen ihrer Arbeit.", critical: false, tip: "Schulungsnachweise, Einweisungsprotokolle" },
-      { id: "7.4a", text: "Interne und externe Kommunikationswege für qualitätsrelevante Informationen sind definiert.", critical: false },
-      { id: "7.5a", text: "Alle geforderten Dokumente und Aufzeichnungen sind vorhanden, aktuell und kontrolliert.", critical: true, tip: "Dokumentenlenkung: Versionierung, Freigabe, Verteilung, Archivierung" },
-      { id: "7.5b", text: "Es gibt ein Verfahren zur Lenkung dokumentierter Informationen (Erstellen, Ändern, Freigeben).", critical: true, tip: "Kritisch: Fehlende Lenkung = häufigster Auditfehler!" },
+      { id: "7.1a", text: "Notwendige Ressourcen (Personal, Infrastruktur, Messtechnik) für das QMS sind bereitgestellt.", critical: false, tip: "Beispiele: Ressourcenplan, Infrastruktur-/Tool-Liste, Wartungs-/Serviceverträge, Verfügbarkeit kritischer Betriebsmittel" },
+      { id: "7.1b", text: "Die Arbeitsumgebung wird systematisch überwacht und für Prozesse optimiert.", critical: false, tip: "Beispiele: 5S-/Begehungsprotokolle, ergonomische Maßnahmen, Umgebungsbedingungen (Temperatur, Sauberkeit)" },
+      { id: "7.1c", text: "Mess- und Prüfmittel sind geeignet, überwacht (z.B. Kalibrierung) und Aufzeichnungen sind vorhanden.", critical: false, tip: "Beispiele: Prüfmittelverzeichnis, Kalibrier-/Prüfprotokolle, Intervalle, Kennzeichnung am Gerät" },
+      { id: "7.2a", text: "Kompetenzen aller qualitätsrelevanten Mitarbeiter sind definiert, bewertet und Lücken geschlossen.", critical: true, tip: "Beispiele: Qualifikationsmatrix, Rollenanforderungen, Nachweise (Zertifikate), Einarbeitungsplan" },
+      { id: "7.3a", text: "Alle Mitarbeiter kennen die Qualitätspolitik, ihre Beiträge und die Konsequenzen ihrer Arbeit.", critical: false, tip: "Beispiele: Unterweisung/Onboarding, kurze Wissensabfrage, Einweisungsprotokolle, Kommunikation in Team-Meetings" },
+      { id: "7.4a", text: "Interne und externe Kommunikationswege für qualitätsrelevante Informationen sind definiert.", critical: false, tip: "Beispiele: Kommunikationsmatrix, Meeting-Rhythmus, Eskalationswege, Kunden-/Lieferantenkommunikation" },
+      { id: "7.5a", text: "Alle geforderten Dokumente und Aufzeichnungen sind vorhanden, aktuell und kontrolliert.", critical: true, tip: "Beispiele: Dokumentenliste, Version/Status, Freigabe, Archivierung, Nachweise (Protokolle, Reports)" },
+      { id: "7.5b", text: "Es gibt ein Verfahren zur Lenkung dokumentierter Informationen (Erstellen, Ändern, Freigeben).", critical: true, tip: "Beispiele: Doku-Lenkungsprozess, Namenskonvention, Freigabe-Workflow; kritisch, weil häufigster Auditfehler" },
+      { id: "7.5c", text: "Dokumentierte Informationen sind geschützt (Zugriff, Backup, Wiederherstellung, Vertraulichkeit).", critical: true, tip: "Beispiele: Rollenrechte, Backup-Konzept, Wiederherstellungstest, Vertraulichkeitsregeln, Aufbewahrungsfristen" },
     ]
   },
   {
@@ -935,16 +943,18 @@ const CHAPTERS = [
     title: "Betrieb",
     desc: "Operative Planung, Kundenanforderungen, Entwicklung, Beschaffung und Leistungserbringung.",
     questions: [
-      { id: "8.1a", text: "Betriebliche Prozesse sind geplant, umgesetzt und kontrolliert (Kriterien und Maßnahmen definiert).", critical: false },
-      { id: "8.2a", text: "Kundenanforderungen werden vollständig, schriftlich erfasst und auf Erfüllbarkeit geprüft.", critical: true, tip: "Angebotsprüfung, Auftragsbestätigung, Vertragsreview" },
-      { id: "8.2b", text: "Beschwerden und Reklamationen werden systematisch erfasst, bearbeitet und rückgemeldet.", critical: true, tip: "8D-Report oder vergleichbares System vorhanden?" },
-      { id: "8.3a", text: "Entwicklungsprozesse sind definiert, dokumentiert und werden nachweislich gesteuert.", critical: false, tip: "Nur relevant wenn Entwicklung im Scope" },
-      { id: "8.4a", text: "Externe Anbieter werden qualifiziert, bewertet und regelmäßig neu bewertet (Lieferantenbewertung).", critical: true, tip: "Lieferantenliste + Bewertungsmatrix erforderlich" },
-      { id: "8.4b", text: "Anforderungen an externe Anbieter sind klar und schriftlich kommuniziert.", critical: false },
-      { id: "8.5a", text: "Die Produkt-/Dienstleistungserbringung erfolgt unter kontrollierten Bedingungen mit dokumentierten Vorgaben.", critical: false },
-      { id: "8.5b", text: "Rückverfolgbarkeit von Produkten/Dienstleistungen ist sichergestellt (Chargen, Serien, Aufträge).", critical: false },
-      { id: "8.6a", text: "Freigabeprozesse für Produkte/Dienstleistungen sind definiert — mit Nachweis der Konformität.", critical: true, tip: "Wareneingang, Zwischenprüfung, Endkontrolle dokumentiert" },
-      { id: "8.7a", text: "Nichtkonformes Output wird systematisch erkannt, gesperrt, bewertet und korrigiert.", critical: true, tip: "Sperrbereich, Nacharbeitsregelung, Verschrottungsnachweis" },
+      { id: "8.1a", text: "Betriebliche Prozesse sind geplant, umgesetzt und kontrolliert (Kriterien und Maßnahmen definiert).", critical: false, tip: "Beispiele: Arbeits-/Prozessanweisungen, Qualitätsplan, Checklisten, Kontrollpunkte, Verantwortliche" },
+      { id: "8.2a", text: "Kundenanforderungen werden vollständig, schriftlich erfasst und auf Erfüllbarkeit geprüft.", critical: true, tip: "Beispiele: Angebotsprüfung, Auftragsbestätigung, Vertragsreview, Spezifikationen/AEB" },
+      { id: "8.2b", text: "Beschwerden und Reklamationen werden systematisch erfasst, bearbeitet und rückgemeldet.", critical: true, tip: "Beispiele: Reklamationsliste, 8D/Abweichungsbericht, Rückmeldung an Kunden, Fristen/Status" },
+      { id: "8.2c", text: "Kundenkommunikation ist geregelt (Anfragen, Änderungen, Feedback, Reklamationen, Liefertermine).", critical: false, tip: "Beispiele: Kommunikationsregeln, Ansprechpartner, Protokolle/CRM-Notizen, Change-Kommunikation" },
+      { id: "8.3a", text: "Entwicklungsprozesse sind definiert, dokumentiert und werden nachweislich gesteuert.", critical: false, tip: "Beispiele: Phasen/Reviews, Tests, Freigaben; nur relevant wenn Entwicklung im Scope" },
+      { id: "8.4a", text: "Externe Anbieter werden qualifiziert, bewertet und regelmäßig neu bewertet (Lieferantenbewertung).", critical: true, tip: "Beispiele: Lieferantenliste, Bewertungsmatrix, Kriterien (Qualität/Liefertreue), Re-Evaluationsrhythmus" },
+      { id: "8.4b", text: "Anforderungen an externe Anbieter sind klar und schriftlich kommuniziert.", critical: false, tip: "Beispiele: Bestellung mit Spezifikation, Zeichnungen, Prüfanforderungen, SLA, Freigaben" },
+      { id: "8.5a", text: "Die Produkt-/Dienstleistungserbringung erfolgt unter kontrollierten Bedingungen mit dokumentierten Vorgaben.", critical: false, tip: "Beispiele: Arbeitsanweisungen, Fertigungs-/Service-Checkliste, Prüfplan, Freigabepunkte" },
+      { id: "8.5b", text: "Rückverfolgbarkeit von Produkten/Dienstleistungen ist sichergestellt (Chargen, Serien, Aufträge).", critical: false, tip: "Beispiele: Chargen-/Seriennummer, Auftragsnummer, Lieferschein/Protokoll-Verknüpfung" },
+      { id: "8.5c", text: "Eigentum von Kunden oder externen Anbietern wird identifiziert, geschützt und bei Verlust/Schaden gemeldet.", critical: false, tip: "Beispiele: Kundenmaterial, Muster, Daten, Werkzeuge; Kennzeichnung, Lagerort, Schadenmeldung" },
+      { id: "8.6a", text: "Freigabeprozesse für Produkte/Dienstleistungen sind definiert — mit Nachweis der Konformität.", critical: true, tip: "Beispiele: Wareneingang, Zwischenprüfung, Endkontrolle, Freigabeprotokoll, Prüfergebnis" },
+      { id: "8.7a", text: "Nichtkonformes Output wird systematisch erkannt, gesperrt, bewertet und korrigiert.", critical: true, tip: "Beispiele: Sperrkennzeichnung, Abweichungsbericht, Nacharbeit/Entsorgung, Freigabe nach Korrektur" },
     ]
   },
   {
@@ -952,12 +962,13 @@ const CHAPTERS = [
     title: "Bewertung der Leistung",
     desc: "Überwachung, Messung, Analyse, Bewertung, internes Audit und Managementbewertung.",
     questions: [
-      { id: "9.1a", text: "Kundenzufriedenheit wird regelmäßig gemessen, ausgewertet und als Verbesserungsimpuls genutzt.", critical: true, tip: "Umfragen, NPS, Reklamationsquote, Rückgabequote" },
-      { id: "9.1b", text: "Prozessziele werden mit KPIs überwacht und Abweichungen systematisch analysiert.", critical: false },
-      { id: "9.2a", text: "Interne Audits werden planmäßig, nach kompetentem Verfahren und mit Bericht durchgeführt.", critical: true, tip: "Auditprogramm, qualifizierte Auditoren, Berichte, Maßnahmen" },
-      { id: "9.2b", text: "Interne Auditoren sind unabhängig von den auditierten Bereichen.", critical: true, tip: "Keine Selbstaudits — klare Trennung erforderlich" },
-      { id: "9.3a", text: "Die Managementbewertung findet mindestens jährlich statt mit allen geforderten Inputs.", critical: true, tip: "Pflicht-Agenda: Auditergebnisse, KPIs, Kundenzufriedenheit, Risiken, Ressourcen" },
-      { id: "9.3b", text: "Ergebnisse der Managementbewertung sind dokumentiert und führen zu messbaren Maßnahmen.", critical: false },
+      { id: "9.1a", text: "Kundenzufriedenheit wird regelmäßig gemessen, ausgewertet und als Verbesserungsimpuls genutzt.", critical: true, tip: "Beispiele: Umfrage, NPS, Reklamationsquote, Reviews, Kundenfeedback-Protokolle" },
+      { id: "9.1b", text: "Prozessziele werden mit KPIs überwacht und Abweichungen systematisch analysiert.", critical: false, tip: "Beispiele: KPI-Dashboard, Soll/Ist, Abweichungsanalyse, Maßnahmenliste, PDCA" },
+      { id: "9.1c", text: "Analyse- und Reporting-Informationen werden genutzt, um Trends, Ursachen und Verbesserungen abzuleiten.", critical: false, tip: "Beispiele: Trendberichte, Ursachenanalyse, Management-Report, priorisierte Verbesserungsmaßnahmen" },
+      { id: "9.2a", text: "Interne Audits werden planmäßig, nach kompetentem Verfahren und mit Bericht durchgeführt.", critical: true, tip: "Beispiele: Auditprogramm, Auditorenqualifikation, Auditberichte, Maßnahmen-Tracking" },
+      { id: "9.2b", text: "Interne Auditoren sind unabhängig von den auditierten Bereichen.", critical: true, tip: "Beispiele: Auditorenmatrix, Zuordnung/Rotation; keine Selbstaudits" },
+      { id: "9.3a", text: "Die Managementbewertung findet mindestens jährlich statt mit allen geforderten Inputs.", critical: true, tip: "Beispiele: Agenda/Protokoll, Auditergebnisse, KPIs, Kundenzufriedenheit, Risiken, Ressourcen" },
+      { id: "9.3b", text: "Ergebnisse der Managementbewertung sind dokumentiert und führen zu messbaren Maßnahmen.", critical: false, tip: "Beispiele: Maßnahmenplan, Verantwortliche, Termine, Wirksamkeitsprüfung, Status-Review" },
     ]
   },
   {
@@ -965,11 +976,12 @@ const CHAPTERS = [
     title: "Verbesserung",
     desc: "Nichtkonformitäten, Korrekturmaßnahmen und kontinuierlicher Verbesserungsprozess (KVP).",
     questions: [
-      { id: "10.1a", text: "Möglichkeiten zur Verbesserung werden aktiv gesucht und systematisch umgesetzt.", critical: false, tip: "KVP-Ideen, Kaizen, Mitarbeitervorschläge" },
-      { id: "10.2a", text: "Bei Nichtkonformitäten werden Sofortmaßnahmen eingeleitet und dokumentiert.", critical: true, tip: "Auch intern: Fehlerprotokoll, Sperrvermerk, Verantwortung" },
-      { id: "10.2b", text: "Ursachenanalyse wird bei jeder Nichtkonformität durchgeführt (5-Why, Ishikawa o.ä.).", critical: true, tip: "Ursache ≠ Symptom — Tiefenanalyse erforderlich" },
-      { id: "10.2c", text: "Korrekturmaßnahmen werden auf Wirksamkeit überprüft und bei Erfolg in Standards übernommen.", critical: true, tip: "Wirksamkeitsprüfung nach Frist = häufig vergessen!" },
-      { id: "10.3a", text: "Der kontinuierliche Verbesserungsprozess ist Teil der Unternehmenskultur (nicht nur auf dem Papier).", critical: false, tip: "Beispiele: regelmäßige KVP-Runden, Verbesserungsdatenbank, Anreize" },
+      { id: "10.1a", text: "Möglichkeiten zur Verbesserung werden aktiv gesucht und systematisch umgesetzt.", critical: false, tip: "Beispiele: KVP-/Kaizen-Liste, Ideenboard, Lessons Learned, Verbesserungsmaßnahmen" },
+      { id: "10.2a", text: "Bei Nichtkonformitäten werden Sofortmaßnahmen eingeleitet und dokumentiert.", critical: true, tip: "Beispiele: Fehlerprotokoll, Sperrvermerk, Sofortmaßnahme, Verantwortlicher, Termin" },
+      { id: "10.2b", text: "Ursachenanalyse wird bei jeder Nichtkonformität durchgeführt (5-Why, Ishikawa o.ä.).", critical: true, tip: "Beispiele: 5-Why/Ishikawa, Faktenbasis, Ursache vs. Symptom sauber trennen" },
+      { id: "10.2c", text: "Korrekturmaßnahmen werden auf Wirksamkeit überprüft und bei Erfolg in Standards übernommen.", critical: true, tip: "Beispiele: Wirksamkeitsprüfung nach Frist, Update Arbeitsanweisung, Schulung/Kommunikation" },
+      { id: "10.2d", text: "Korrekturmaßnahmen führen zu Updates in Risikoanalyse/QMS-Dokumentation, falls erforderlich.", critical: false, tip: "Beispiele: Risiko-/Chancenliste aktualisieren, Prozess/Checkliste anpassen, Dokumentenversion erhöhen" },
+      { id: "10.3a", text: "Der kontinuierliche Verbesserungsprozess ist Teil der Unternehmenskultur (nicht nur auf dem Papier).", critical: false, tip: "Beispiele: regelmäßige KVP-Runden, Verbesserungsdatenbank, Kennzahlen-Reviews, Anreizsystem" },
     ]
   }
 ];
@@ -1199,7 +1211,9 @@ function showResult() {
 
   // Export JSON for AI
   const exportData = buildExport(chapterScores, overallPct);
-  document.getElementById('exportArea').textContent = JSON.stringify(exportData, null, 2);
+  const exportText = JSON.stringify(exportData, null, 2);
+  window.latestAuditExport = exportText;
+  document.getElementById('exportArea').textContent = exportText;
 }
 
 function buildExport(chapterScores, overallPct) {
@@ -1256,6 +1270,22 @@ function copyExport() {
     btn.textContent = '✓ Kopiert!';
     setTimeout(() => btn.textContent = 'Daten kopieren', 2000);
   });
+}
+
+function openGapReport() {
+  const text = window.latestAuditExport || document.getElementById('exportArea').textContent;
+  if (!text || text.includes('Wird generiert')) {
+    alert('Bitte zuerst die Auswertung anzeigen, damit der Export generiert wird.');
+    return;
+  }
+  try {
+    JSON.parse(text);
+  } catch {
+    alert('Export ist kein gültiges JSON. Bitte erneut Auswertung anzeigen.');
+    return;
+  }
+  localStorage.setItem('onlinecert.latest_audit_export', text);
+  window.location.href = '/gap-report.html';
 }
 
 function downloadJSON() {
