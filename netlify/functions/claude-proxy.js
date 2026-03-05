@@ -41,7 +41,9 @@ exports.handler = async function(event, context) {
   // Security: only allow our model, cap tokens
   const payload = {
     model: 'claude-sonnet-4-20250514',
-    max_tokens: Math.min(body.max_tokens || 1500, 4000),
+    // Frontend may request larger outputs for full gap reports.
+    // Keep a hard cap to control cost.
+    max_tokens: Math.min(body.max_tokens || 1500, 8000),
     stream: body.stream === true,
     system: body.system || '',
     messages: body.messages || [],
@@ -57,6 +59,24 @@ exports.handler = async function(event, context) {
       },
       body: JSON.stringify(payload),
     });
+
+    // If Anthropic returns an error, pass it through with the real status code.
+    // This prevents the frontend from showing an empty report with HTTP 200.
+    if (!response.ok) {
+      const text = await response.text().catch(() => '');
+      return {
+        statusCode: response.status,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({
+          error: 'Upstream Anthropic error',
+          status: response.status,
+          details: text ? text.slice(0, 2000) : '',
+        }),
+      };
+    }
 
     // For streaming: pipe through as SSE
     if (payload.stream) {

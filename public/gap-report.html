@@ -1162,6 +1162,15 @@ let supplementalDocsText = '';
 let supplementalDocsInfo = [];
 const DOC_TEXT_LIMIT_CHARS = 60000;
 
+function setJsonStatus(message, level = 'info') {
+  const status = document.getElementById('jsonStatus');
+  if (!status) return;
+
+  const color = level === 'error' ? '#c82a2a' : (level === 'warn' ? '#c87a2a' : '#2a7a52');
+  status.style.color = color;
+  status.textContent = message || '';
+}
+
 function setDocStatus(text, level = 'info') {
   const el = document.getElementById('docStatus');
   if (!el) return;
@@ -1377,17 +1386,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Autostart only makes sense when data is present (typically coming from Self-Audit).
   const raw = (document.getElementById('jsonPaste')?.value || '').trim();
-  if (!raw) return;
+  if (!raw) {
+    setJsonStatus('Autostart: Keine Audit-Daten gefunden. Bitte Gap-Report direkt aus dem Self-Audit öffnen oder JSON einfügen.', 'warn');
+    return;
+  }
 
   // Ensure JSON validation state is up to date.
   validateJson();
 
   if (!isValid || !auditData) return;
 
+  // Prevent accidental autostart if user came here without a handoff.
+  if (!loadedFromStorage) {
+    setJsonStatus('Autostart wurde nicht ausgeführt (keine Self-Audit-Übergabe gefunden). Klicken Sie auf „Gap-Report generieren“ um manuell zu starten.', 'warn');
+    return;
+  }
+
   // Give the browser one tick to paint the filled form/status.
   setTimeout(() => {
-    // Prevent accidental autostart if user came here without a handoff.
-    if (!loadedFromStorage) return;
     generateReport();
   }, 50);
 });
@@ -1425,6 +1441,16 @@ async function generateReport() {
         messages: [{ role: 'user', content: prompt }]
       })
     });
+
+    if (!response.ok) {
+      const details = await response.text().catch(() => '');
+      const suffix = details && details.trim() ? ` — ${details.trim().slice(0, 300)}` : '';
+      throw new Error(`Serverfehler (${response.status})${suffix}`);
+    }
+
+    if (!response.body || typeof response.body.getReader !== 'function') {
+      throw new Error('Streaming-Antwort nicht verfügbar (Browser/Proxy). Bitte im Live-System öffnen oder einen anderen Browser nutzen.');
+    }
 
     // Setup report view
     document.getElementById('loadingZone').style.display = 'none';
@@ -1481,7 +1507,8 @@ async function generateReport() {
   } catch (err) {
     document.getElementById('loadingZone').style.display = 'none';
     document.getElementById('uploadZone').style.display = 'block';
-    alert('Fehler bei der KI-Analyse: ' + err.message);
+    const msg = (err && err.message) ? err.message : String(err);
+    setJsonStatus(`Fehler bei der KI-Analyse: ${msg}`, 'error');
   }
 }
 
