@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <script>
+    (function () {
+      try {
+        if (location.hostname === 'iso9001.qm-guru.de' && (location.pathname === '/' || location.pathname === '')) {
+          location.replace('/ki-berater.html');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- PRIMARY SEO -->
   <title>QM-Guru KI-System | ISO 9001 Beratung & Zertifizierung</title>
   <meta name="description" content="Das QM-Guru KI-System für ISO 9001/14001/45001: klare Antworten, Vorlagen und nächste Schritte. Termin vereinbaren oder Angebot einholen – ohne Rückruf.">
