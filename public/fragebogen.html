@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISO 9001 Self-Audit | OnlineCert</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #1f2530;
+    --accent: #00c896;
+    --accent2: #0084ff;
+    --warn: #f5a623;
+    --danger: #ff4757;
+    --text: #e8ecf2;
+    --text2: #8892a4;
+    --text3: #4a5568;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,200,150,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,150,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,12,16,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+
+  .logo span { color: var(--text2); font-style: italic; }
+
+  .header-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* PROGRESS BAR */
+  .progress-container {
+    position: fixed;
+    top: 64px;
+    left: 0; right: 0;
+    z-index: 99;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 2rem;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .progress-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 999px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  .chapter-dots {
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+  }
+
+  .chapter-dot {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    border-radius: 999px;
+    transition: background 0.3s;
+  }
+
+  .chapter-dot.done { background: var(--accent); }
+  .chapter-dot.active { background: var(--accent2); }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 160px 2rem 8rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* INTRO SCREEN */
+  #intro {
+    text-align: center;
+    padding: 4rem 0;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .intro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0,200,150,0.08);
+    border: 1px solid rgba(0,200,150,0.2);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 2rem;
+  }
+
+  .intro-badge::before { content: '◆'; font-size: 0.5rem; }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+    background: linear-gradient(135deg, var(--text) 0%, var(--text2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .intro-sub {
+    font-size: 1.05rem;
+    color: var(--text2);
+    line-height: 1.7;
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .intro-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 480px;
+    margin: 0 auto 3rem;
+  }
+
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 0.3rem;
+  }
+
+  /* COMPANY FORM */
+  .company-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text3);
+  }
+
+  input, select, textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,200,150,0.08);
+  }
+
+  select option { background: #1a1f2e; }
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--accent);
+    color: #000;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.85rem 2rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,200,150,0.3);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--text2);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--text2); color: var(--text); }
+
+  /* CHAPTER SECTION */
+  .chapter {
+    display: none;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .chapter.active { display: block; }
+
+  .chapter-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .chapter-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    background: rgba(0,200,150,0.08);
+    border: 1px solid rgba(0,200,150,0.15);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    margin-top: 0.2rem;
+  }
+
+  .chapter-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .chapter-desc {
+    font-size: 0.88rem;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-top: 0.4rem;
+  }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+
+  .question-card:has(input:checked) {
+    border-color: rgba(0,200,150,0.2);
+    background: rgba(0,200,150,0.02);
+  }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text3);
+    background: var(--surface2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .q-text {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .q-critical {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--danger);
+    background: rgba(255,71,87,0.08);
+    border: 1px solid rgba(255,71,87,0.2);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    margin-top: 0.4rem;
+  }
+
+  /* RADIO OPTIONS */
+  .options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+
+  .option {
+    position: relative;
+  }
+
+  .option input { display: none; }
+
+  .option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.75rem 0.5rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--text2);
+    line-height: 1.3;
+  }
+
+  .option label .opt-icon { font-size: 1.1rem; }
+
+  .option input[value="0"]:checked + label { background: rgba(255,71,87,0.1); border-color: var(--danger); color: var(--danger); }
+  .option input[value="1"]:checked + label { background: rgba(245,166,35,0.1); border-color: var(--warn); color: var(--warn); }
+  .option input[value="2"]:checked + label { background: rgba(0,132,255,0.1); border-color: var(--accent2); color: var(--accent2); }
+  .option input[value="3"]:checked + label { background: rgba(0,200,150,0.1); border-color: var(--accent); color: var(--accent); }
+
+  .option label:hover { border-color: var(--text3); transform: translateY(-1px); }
+
+  /* OPEN FIELD */
+  .open-field {
+    margin-top: 0.75rem;
+  }
+
+  .open-field textarea {
+    font-size: 0.82rem;
+    padding: 0.6rem 0.8rem;
+    min-height: 60px;
+  }
+
+  /* NAV */
+  .chapter-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-info {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* RESULT SCREEN */
+  #result {
+    display: none;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .result-hero {
+    text-align: center;
+    padding: 2rem 0 3rem;
+  }
+
+  .score-ring {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 2rem;
+    position: relative;
+  }
+
+  .score-ring svg { transform: rotate(-90deg); }
+
+  .score-ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-pct {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .score-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.2rem;
+  }
+
+  /* CHAPTER RESULTS */
+  .chapter-results {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .chapter-result {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cr-info { flex: 1; }
+
+  .cr-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+
+  .cr-bar-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .cr-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 1s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .cr-score {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    min-width: 40px;
+    text-align: right;
+  }
+
+  .cr-status {
+    font-size: 1.2rem;
+  }
+
+  /* EXPORT AREA */
+  .export-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .export-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text3);
+    margin-bottom: 1rem;
+  }
+
+  .export-area {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text2);
+    line-height: 1.6;
+    max-height: 200px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .export-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* TOOLTIP */
+  .tip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px; height: 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    font-size: 0.6rem;
+    color: var(--text3);
+    cursor: help;
+    margin-left: 0.4rem;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .tip:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 0.7rem;
+    line-height: 1.4;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    max-width: 220px;
+    white-space: normal;
+    z-index: 999;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* SAVING INDICATOR */
+  .autosave {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text3);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .autosave::before {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @media (max-width: 600px) {
+    .options { grid-template-columns: repeat(2, 1fr); }
+    .form-grid { grid-template-columns: 1fr; }
+    .intro-stats { grid-template-columns: 1fr; max-width: 240px; }
+    .chapter-nav { flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+<!-- QM-Guru Navigation -->
+<nav id="qmg-nav" style="
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  background: rgba(14,15,12,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.5rem; height: 52px;
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+">
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <a href="https://www.qm-guru.de" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7" title="Zurück zu QM-Guru.de">
+      <span style="font-size:0.7rem;color:#9A9A8A;">← qm-guru.de</span>
+    </a>
+    <span style="color:#2A2B26;">|</span>
+    <a href="/" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;">
+      <span style="width:26px;height:26px;background:#2E6B45;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.65rem;color:white;font-family:inherit;">QM</span>
+      <span style="font-weight:800;font-size:0.88rem;color:#F0EFE8;letter-spacing:-0.02em;">Tools</span>
+      <span style="font-size:0.65rem;color:#5A5A4A;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;">tools.qm-guru.de</span>
+    </a>
+  </div>
+  <div style="display:flex;gap:0.2rem;align-items:center;">
+    <a href="/" style="padding:0.38rem 0.7rem;border-radius:6px;font-size:0.76rem;color:#9A9A8A;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#F0EFE8';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.color='#9A9A8A';this.style.background='transparent'">Übersicht</a>
+    <a href="/fragebogen.html" style="padding:0.38rem 0.7rem;border-radius:6px;font-size:0.76rem;color:#9A9A8A;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#F0EFE8';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.color='#9A9A8A';this.style.background='transparent'">📋 Self-Audit</a>
+    <a href="/gap-report.html" style="padding:0.38rem 0.7rem;border-radius:6px;font-size:0.76rem;color:#9A9A8A;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#F0EFE8';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.color='#9A9A8A';this.style.background='transparent'">📊 Gap-Report</a>
+    <a href="/ki-berater.html" style="padding:0.38rem 0.7rem;border-radius:6px;font-size:0.76rem;color:#9A9A8A;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#F0EFE8';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.color='#9A9A8A';this.style.background='transparent'">🤖 KI-Berater</a>
+    <a href="mailto:info@qm-guru.de?subject=Kostenloses%20Erstgesprach" style="margin-left:0.4rem;padding:0.38rem 0.9rem;border-radius:6px;font-size:0.76rem;font-weight:600;color:white;background:#2E6B45;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#3A8055'" onmouseout="this.style.background='#2E6B45'">Erstgespräch</a>
+  </div>
+</nav>
+<style>body { padding-top: 52px !important; }</style>
+
+<header>
+  <div class="logo">OnlineCert <span>Audit</span></div>
+  <div class="header-meta">ISO 9001:2015 Self-Assessment</div>
+</header>
+
+<div class="progress-container" id="progressBar" style="display:none">
+  <div class="progress-header">
+    <span class="progress-label" id="progressChapter">Kapitel 4 — Kontext der Organisation</span>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <div class="chapter-dots" id="chapterDots"></div>
+</div>
+
+<main>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="intro-badge">ISO 9001:2015 · Vollständige Analyse</div>
+  <h1>Wie gut ist Ihr Qualitätsmanagement?</h1>
+  <p class="intro-sub">
+    Unser KI-gestützter Self-Audit bewertet Ihr QM-System in allen 7 Normkapiteln — und zeigt Ihnen exakt, wo Sie stehen und was zu tun ist.
+  </p>
+
+  <div class="intro-stats">
+    <div class="stat">
+      <div class="stat-num">7</div>
+      <div class="stat-label">Kapitel</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">56</div>
+      <div class="stat-label">Fragen</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">~15'</div>
+      <div class="stat-label">Dauer</div>
+    </div>
+  </div>
+
+  <div class="company-form">
+    <div class="form-grid">
+      <div class="field full">
+        <label>Unternehmensname *</label>
+        <input type="text" id="companyName" placeholder="Mustermann GmbH" required>
+      </div>
+      <div class="field">
+        <label>Ansprechpartner *</label>
+        <input type="text" id="contactName" placeholder="Max Mustermann">
+      </div>
+      <div class="field">
+        <label>E-Mail *</label>
+        <input type="email" id="contactEmail" placeholder="max@firma.de">
+      </div>
+      <div class="field">
+        <label>Branche</label>
+        <select id="industry">
+          <option value="">Bitte wählen...</option>
+          <option>Fertigung / Produktion</option>
+          <option>Dienstleistung</option>
+          <option>Handel</option>
+          <option>IT / Software</option>
+          <option>Gesundheitswesen</option>
+          <option>Bau / Handwerk</option>
+          <option>Logistik / Transport</option>
+          <option>Lebensmittel</option>
+          <option>Sonstiges</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Mitarbeiteranzahl</label>
+        <select id="employees">
+          <option value="">Bitte wählen...</option>
+          <option>1–10</option>
+          <option>11–50</option>
+          <option>51–250</option>
+          <option>251–1000</option>
+          <option>1000+</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label>Bisherige ISO-Erfahrung</label>
+        <select id="experience">
+          <option value="none">Keine — wir starten neu</option>
+          <option value="preparing">In Vorbereitung (6–12 Monate)</option>
+          <option value="certified">Bereits zertifiziert (Re-Zertifizierung)</option>
+          <option value="recert">Zertifiziert, aber System veraltet</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-primary" onclick="startAudit()">
+    Self-Audit starten →
+  </button>
+</div>
+
+<!-- CHAPTERS CONTAINER -->
+<div id="chaptersContainer"></div>
+
+<!-- RESULT -->
+<div id="result">
+  <div class="result-hero">
+    <div class="intro-badge">Analyse abgeschlossen</div>
+    <div class="score-ring">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="68" fill="none" stroke="#1f2530" stroke-width="8"/>
+        <circle id="scoreCircle" cx="80" cy="80" r="68" fill="none" stroke="url(#scoreGrad)" stroke-width="8"
+          stroke-linecap="round" stroke-dasharray="427" stroke-dashoffset="427"
+          style="transition: stroke-dashoffset 1.5s cubic-bezier(0.4,0,0.2,1)"/>
+        <defs>
+          <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00c896"/>
+            <stop offset="100%" stop-color="#0084ff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="score-ring-text">
+        <div class="score-pct" id="scorePct">0%</div>
+        <div class="score-label">Erfüllung</div>
+      </div>
+    </div>
+    <h1 id="resultTitle">Ihr Ergebnis</h1>
+    <p class="intro-sub" id="resultSub"></p>
+  </div>
+
+  <div class="chapter-results" id="chapterResults"></div>
+
+  <div class="export-box">
+    <div class="export-title">📋 KI-Analyse Datensatz — für Gap-Report</div>
+    <div class="export-area" id="exportArea">Wird generiert...</div>
+    <div class="export-actions">
+      <button class="btn-primary" onclick="copyExport()">Daten kopieren</button>
+      <button class="btn-secondary" onclick="downloadJSON()">JSON herunterladen</button>
+      <button class="btn-secondary" onclick="window.print()">PDF drucken</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+const CHAPTERS = [
+  {
+    id: 4,
+    title: "Kontext der Organisation",
+    desc: "Verstehen der internen und externen Rahmenbedingungen sowie der Anforderungen relevanter Parteien.",
+    questions: [
+      { id: "4.1a", text: "Interne Einflussfaktoren (z.B. Werte, Kultur, Wissen, Leistung) sind systematisch ermittelt und dokumentiert.", critical: false, tip: "Intern: Ressourcen, Prozesse, Technologie, Mitarbeiter" },
+      { id: "4.1b", text: "Externe Einflussfaktoren (z.B. Markt, Wettbewerb, Regulierung, Technologie) werden regelmäßig bewertet.", critical: false, tip: "PESTEL-Analyse als mögliches Werkzeug" },
+      { id: "4.2a", text: "Relevante interessierte Parteien (Kunden, Lieferanten, Behörden) sind vollständig identifiziert.", critical: true, tip: "Kritisch: Nicht identifizierte Parteien = blinde Flecken im QMS" },
+      { id: "4.2b", text: "Die Anforderungen aller relevanten Parteien werden regelmäßig erhoben und in das QMS integriert.", critical: true, tip: "Mindestens jährliche Überprüfung empfohlen" },
+      { id: "4.3a", text: "Der Anwendungsbereich des QMS ist klar definiert, begründet und dokumentiert.", critical: false, tip: "Ausschlüsse müssen begründet werden" },
+      { id: "4.4a", text: "Alle Prozesse des QMS sind identifiziert, ihre Wechselwirkungen verstanden und dokumentiert.", critical: false, tip: "Prozesslandschaft oder Turtle-Diagramm" },
+      { id: "4.4b", text: "Für jeden Prozess sind Verantwortliche, Ein-/Ausgaben, KPIs und Ressourcen festgelegt.", critical: false, tip: "Prozesssteckbriefe als bewährte Methode" },
+    ]
+  },
+  {
+    id: 5,
+    title: "Führung",
+    desc: "Engagement und Verantwortung der obersten Leitung für das QMS und die Qualitätspolitik.",
+    questions: [
+      { id: "5.1a", text: "Die oberste Leitung übernimmt aktiv Verantwortung für das QMS (nicht delegiert).", critical: true, tip: "Nachweise: Protokolle, Unterschriften, persönliche Kommunikation" },
+      { id: "5.1b", text: "Qualitätsziele sind mit der Unternehmensstrategie verknüpft und nachweislich kommuniziert.", critical: true, tip: "Strategische Ausrichtung: Bindeglied zwischen QM und Geschäftsführung" },
+      { id: "5.2a", text: "Eine dokumentierte Qualitätspolitik ist vorhanden, kundenorientiert und im Unternehmen bekannt.", critical: true, tip: "Aushang reicht nicht — Mitarbeiter müssen Inhalte kennen" },
+      { id: "5.3a", text: "Rollen, Verantwortlichkeiten und Befugnisse im QMS sind klar definiert und kommuniziert.", critical: false, tip: "Organigramm + Stellenbeschreibungen + QMB-Beauftragung" },
+      { id: "5.3b", text: "Es gibt eine beauftragte Person für das QMS (Qualitätsmanagementbeauftragter oder vergleichbar).", critical: false },
+    ]
+  },
+  {
+    id: 6,
+    title: "Planung",
+    desc: "Risikomanagement, Qualitätsziele und Planung von Änderungen im QMS.",
+    questions: [
+      { id: "6.1a", text: "Risiken und Chancen werden systematisch identifiziert, bewertet und mit Maßnahmen hinterlegt.", critical: true, tip: "FMEA, Risikomatrix oder SWOT als Werkzeuge" },
+      { id: "6.1b", text: "Der Umgang mit Risiken wird regelmäßig überprüft und aktualisiert (mind. jährlich).", critical: false },
+      { id: "6.2a", text: "Qualitätsziele sind messbar, zeitlich terminiert, den Mitarbeitern bekannt und nachverfolgbar.", critical: true, tip: "SMART-Kriterien: Spezifisch, Messbar, Attraktiv, Realistisch, Terminiert" },
+      { id: "6.2b", text: "Für jedes Qualitätsziel existiert ein Aktionsplan mit Verantwortlichem und Ressourcen.", critical: false },
+      { id: "6.3a", text: "Änderungen am QMS werden geplant, kommuniziert und auf Auswirkungen bewertet.", critical: false, tip: "Change-Management-Prozess vorhanden?" },
+    ]
+  },
+  {
+    id: 7,
+    title: "Unterstützung",
+    desc: "Ressourcen, Kompetenz, Bewusstsein, Kommunikation und dokumentierte Informationen.",
+    questions: [
+      { id: "7.1a", text: "Notwendige Ressourcen (Personal, Infrastruktur, Messtechnik) für das QMS sind bereitgestellt.", critical: false },
+      { id: "7.1b", text: "Die Arbeitsumgebung wird systematisch überwacht und für Prozesse optimiert.", critical: false, tip: "5S, ergonomische Faktoren, Umgebungsbedingungen" },
+      { id: "7.2a", text: "Kompetenzen aller qualitätsrelevanten Mitarbeiter sind definiert, bewertet und Lücken geschlossen.", critical: true, tip: "Qualifikationsmatrix oder Kompetenzprofil" },
+      { id: "7.3a", text: "Alle Mitarbeiter kennen die Qualitätspolitik, ihre Beiträge und die Konsequenzen ihrer Arbeit.", critical: false, tip: "Schulungsnachweise, Einweisungsprotokolle" },
+      { id: "7.4a", text: "Interne und externe Kommunikationswege für qualitätsrelevante Informationen sind definiert.", critical: false },
+      { id: "7.5a", text: "Alle geforderten Dokumente und Aufzeichnungen sind vorhanden, aktuell und kontrolliert.", critical: true, tip: "Dokumentenlenkung: Versionierung, Freigabe, Verteilung, Archivierung" },
+      { id: "7.5b", text: "Es gibt ein Verfahren zur Lenkung dokumentierter Informationen (Erstellen, Ändern, Freigeben).", critical: true, tip: "Kritisch: Fehlende Lenkung = häufigster Auditfehler!" },
+    ]
+  },
+  {
+    id: 8,
+    title: "Betrieb",
+    desc: "Operative Planung, Kundenanforderungen, Entwicklung, Beschaffung und Leistungserbringung.",
+    questions: [
+      { id: "8.1a", text: "Betriebliche Prozesse sind geplant, umgesetzt und kontrolliert (Kriterien und Maßnahmen definiert).", critical: false },
+      { id: "8.2a", text: "Kundenanforderungen werden vollständig, schriftlich erfasst und auf Erfüllbarkeit geprüft.", critical: true, tip: "Angebotsprüfung, Auftragsbestätigung, Vertragsreview" },
+      { id: "8.2b", text: "Beschwerden und Reklamationen werden systematisch erfasst, bearbeitet und rückgemeldet.", critical: true, tip: "8D-Report oder vergleichbares System vorhanden?" },
+      { id: "8.3a", text: "Entwicklungsprozesse sind definiert, dokumentiert und werden nachweislich gesteuert.", critical: false, tip: "Nur relevant wenn Entwicklung im Scope" },
+      { id: "8.4a", text: "Externe Anbieter werden qualifiziert, bewertet und regelmäßig neu bewertet (Lieferantenbewertung).", critical: true, tip: "Lieferantenliste + Bewertungsmatrix erforderlich" },
+      { id: "8.4b", text: "Anforderungen an externe Anbieter sind klar und schriftlich kommuniziert.", critical: false },
+      { id: "8.5a", text: "Die Produkt-/Dienstleistungserbringung erfolgt unter kontrollierten Bedingungen mit dokumentierten Vorgaben.", critical: false },
+      { id: "8.5b", text: "Rückverfolgbarkeit von Produkten/Dienstleistungen ist sichergestellt (Chargen, Serien, Aufträge).", critical: false },
+      { id: "8.6a", text: "Freigabeprozesse für Produkte/Dienstleistungen sind definiert — mit Nachweis der Konformität.", critical: true, tip: "Wareneingang, Zwischenprüfung, Endkontrolle dokumentiert" },
+      { id: "8.7a", text: "Nichtkonformes Output wird systematisch erkannt, gesperrt, bewertet und korrigiert.", critical: true, tip: "Sperrbereich, Nacharbeitsregelung, Verschrottungsnachweis" },
+    ]
+  },
+  {
+    id: 9,
+    title: "Bewertung der Leistung",
+    desc: "Überwachung, Messung, Analyse, Bewertung, internes Audit und Managementbewertung.",
+    questions: [
+      { id: "9.1a", text: "Kundenzufriedenheit wird regelmäßig gemessen, ausgewertet und als Verbesserungsimpuls genutzt.", critical: true, tip: "Umfragen, NPS, Reklamationsquote, Rückgabequote" },
+      { id: "9.1b", text: "Prozessziele werden mit KPIs überwacht und Abweichungen systematisch analysiert.", critical: false },
+      { id: "9.2a", text: "Interne Audits werden planmäßig, nach kompetentem Verfahren und mit Bericht durchgeführt.", critical: true, tip: "Auditprogramm, qualifizierte Auditoren, Berichte, Maßnahmen" },
+      { id: "9.2b", text: "Interne Auditoren sind unabhängig von den auditierten Bereichen.", critical: true, tip: "Keine Selbstaudits — klare Trennung erforderlich" },
+      { id: "9.3a", text: "Die Managementbewertung findet mindestens jährlich statt mit allen geforderten Inputs.", critical: true, tip: "Pflicht-Agenda: Auditergebnisse, KPIs, Kundenzufriedenheit, Risiken, Ressourcen" },
+      { id: "9.3b", text: "Ergebnisse der Managementbewertung sind dokumentiert und führen zu messbaren Maßnahmen.", critical: false },
+    ]
+  },
+  {
+    id: 10,
+    title: "Verbesserung",
+    desc: "Nichtkonformitäten, Korrekturmaßnahmen und kontinuierlicher Verbesserungsprozess (KVP).",
+    questions: [
+      { id: "10.1a", text: "Möglichkeiten zur Verbesserung werden aktiv gesucht und systematisch umgesetzt.", critical: false, tip: "KVP-Ideen, Kaizen, Mitarbeitervorschläge" },
+      { id: "10.2a", text: "Bei Nichtkonformitäten werden Sofortmaßnahmen eingeleitet und dokumentiert.", critical: true, tip: "Auch intern: Fehlerprotokoll, Sperrvermerk, Verantwortung" },
+      { id: "10.2b", text: "Ursachenanalyse wird bei jeder Nichtkonformität durchgeführt (5-Why, Ishikawa o.ä.).", critical: true, tip: "Ursache ≠ Symptom — Tiefenanalyse erforderlich" },
+      { id: "10.2c", text: "Korrekturmaßnahmen werden auf Wirksamkeit überprüft und bei Erfolg in Standards übernommen.", critical: true, tip: "Wirksamkeitsprüfung nach Frist = häufig vergessen!" },
+      { id: "10.3a", text: "Der kontinuierliche Verbesserungsprozess ist Teil der Unternehmenskultur (nicht nur auf dem Papier).", critical: false, tip: "Beispiele: regelmäßige KVP-Runden, Verbesserungsdatenbank, Anreize" },
+    ]
+  }
+];
+
+const OPTIONS = [
+  { value: "0", icon: "✗", label: "Nicht vorhanden" },
+  { value: "1", icon: "△", label: "Ansätze vorhanden" },
+  { value: "2", icon: "◎", label: "Weitgehend erfüllt" },
+  { value: "3", icon: "✓", label: "Vollständig erfüllt" },
+];
+
+let answers = {};
+let companyData = {};
+let currentChapter = 0;
+
+function startAudit() {
+  const name = document.getElementById('companyName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  if (!name || !email) {
+    alert('Bitte Unternehmensname und E-Mail angeben.');
+    return;
+  }
+  companyData = {
+    name, email,
+    contact: document.getElementById('contactName').value,
+    industry: document.getElementById('industry').value,
+    employees: document.getElementById('employees').value,
+    experience: document.getElementById('experience').value,
+    date: new Date().toLocaleDateString('de-DE'),
+  };
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  buildChapters();
+  initDots();
+  showChapter(0);
+}
+
+function buildChapters() {
+  const container = document.getElementById('chaptersContainer');
+  container.innerHTML = '';
+  CHAPTERS.forEach((ch, ci) => {
+    const div = document.createElement('div');
+    div.className = 'chapter';
+    div.id = `chapter-${ci}`;
+
+    let qs = ch.questions.map((q, qi) => `
+      <div class="question-card" id="qcard-${ci}-${qi}">
+        <div class="q-header">
+          <span class="q-num">${q.id}</span>
+          <div>
+            <div class="q-text">${q.text}${q.tip ? `<span class="tip" data-tip="${q.tip}">?</span>` : ''}</div>
+            ${q.critical ? '<div class="q-critical">⚡ Kritisches Kriterium</div>' : ''}
+          </div>
+        </div>
+        <div class="options">
+          ${OPTIONS.map(o => `
+            <div class="option">
+              <input type="radio" name="q_${ci}_${qi}" id="q_${ci}_${qi}_${o.value}" value="${o.value}"
+                onchange="saveAnswer(${ci},${qi},this.value)">
+              <label for="q_${ci}_${qi}_${o.value}">
+                <span class="opt-icon">${o.icon}</span>
+                ${o.label}
+              </label>
+            </div>
+          `).join('')}
+        </div>
+        <div class="open-field">
+          <textarea placeholder="Kommentar / Beobachtung (optional)..."
+            oninput="saveComment(${ci},${qi},this.value)"></textarea>
+        </div>
+      </div>
+    `).join('');
+
+    const isLast = ci === CHAPTERS.length - 1;
+    div.innerHTML = `
+      <div class="chapter-header">
+        <span class="chapter-num">Kap. ${ch.id}</span>
+        <div>
+          <div class="chapter-title">${ch.title}</div>
+          <div class="chapter-desc">${ch.desc}</div>
+        </div>
+      </div>
+      ${qs}
+      <div class="chapter-nav">
+        <button class="btn-secondary" onclick="prevChapter()" ${ci === 0 ? 'style="visibility:hidden"' : ''}>← Zurück</button>
+        <span class="autosave">Automatisch gespeichert</span>
+        ${isLast
+          ? `<button class="btn-primary" onclick="showResult()">Auswertung anzeigen →</button>`
+          : `<button class="btn-primary" onclick="nextChapter()">Weiter →</button>`
+        }
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function initDots() {
+  const dots = document.getElementById('chapterDots');
+  dots.innerHTML = CHAPTERS.map((_, i) => `<div class="chapter-dot" id="dot-${i}"></div>`).join('');
+}
+
+function showChapter(idx) {
+  document.querySelectorAll('.chapter').forEach(c => c.classList.remove('active'));
+  document.getElementById(`chapter-${idx}`).classList.add('active');
+  currentChapter = idx;
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextChapter() {
+  if (currentChapter < CHAPTERS.length - 1) showChapter(currentChapter + 1);
+}
+
+function prevChapter() {
+  if (currentChapter > 0) showChapter(currentChapter - 1);
+}
+
+function saveAnswer(ci, qi, val) {
+  if (!answers[ci]) answers[ci] = {};
+  if (!answers[ci][qi]) answers[ci][qi] = {};
+  answers[ci][qi].score = parseInt(val);
+  updateProgress();
+}
+
+function saveComment(ci, qi, val) {
+  if (!answers[ci]) answers[ci] = {};
+  if (!answers[ci][qi]) answers[ci][qi] = {};
+  answers[ci][qi].comment = val;
+}
+
+function updateProgress() {
+  const total = CHAPTERS.reduce((s, ch) => s + ch.questions.length, 0);
+  let answered = 0;
+  CHAPTERS.forEach((ch, ci) => {
+    ch.questions.forEach((_, qi) => {
+      if (answers[ci]?.[qi]?.score !== undefined) answered++;
+    });
+  });
+  const pct = Math.round((answered / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+
+  const ch = CHAPTERS[currentChapter];
+  document.getElementById('progressChapter').textContent = `Kapitel ${ch.id} — ${ch.title}`;
+
+  CHAPTERS.forEach((_, ci) => {
+    const dot = document.getElementById(`dot-${ci}`);
+    if (ci < currentChapter) dot.className = 'chapter-dot done';
+    else if (ci === currentChapter) dot.className = 'chapter-dot active';
+    else dot.className = 'chapter-dot';
+  });
+}
+
+function showResult() {
+  document.getElementById('chaptersContainer').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Calculate scores
+  let totalScore = 0, totalMax = 0;
+  const chapterScores = CHAPTERS.map((ch, ci) => {
+    let score = 0, max = ch.questions.length * 3;
+    let criticalFails = [];
+    ch.questions.forEach((q, qi) => {
+      const s = answers[ci]?.[qi]?.score ?? 0;
+      score += s;
+      if (q.critical && s < 2) criticalFails.push(q.id);
+    });
+    totalScore += score;
+    totalMax += max;
+    return { ...ch, score, max, pct: Math.round((score / max) * 100), criticalFails };
+  });
+
+  const overallPct = Math.round((totalScore / totalMax) * 100);
+
+  // Score ring
+  setTimeout(() => {
+    const circumference = 427;
+    const offset = circumference - (circumference * overallPct / 100);
+    document.getElementById('scoreCircle').style.strokeDashoffset = offset;
+    let i = 0;
+    const interval = setInterval(() => {
+      i = Math.min(i + 2, overallPct);
+      document.getElementById('scorePct').textContent = i + '%';
+      if (i >= overallPct) clearInterval(interval);
+    }, 20);
+  }, 300);
+
+  // Result title
+  let title, sub;
+  if (overallPct >= 80) {
+    title = 'Ausgezeichnet — Zertifizierungsreif';
+    sub = 'Ihr QMS erfüllt die Anforderungen der ISO 9001:2015 zu einem sehr hohen Grad. Eine Zertifizierung ist kurzfristig möglich.';
+  } else if (overallPct >= 60) {
+    title = 'Gut — mit gezielten Verbesserungen';
+    sub = 'Ihr QMS hat eine solide Basis. Mit den identifizierten Maßnahmen können Sie die Zertifizierungsreife in 4–8 Wochen erreichen.';
+  } else if (overallPct >= 40) {
+    title = 'Entwicklungspotenzial vorhanden';
+    sub = 'Wesentliche Elemente des QMS sind vorhanden, aber noch nicht vollständig. Unsere Gap-Analyse zeigt den optimalen Weg.';
+  } else {
+    title = 'Aufbauphase — Fundament legen';
+    sub = 'Ihr QMS befindet sich im Aufbau. Mit unserem strukturierten Programm erreichen Sie die Zertifizierungsreife in 3–6 Monaten.';
+  }
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultSub').textContent = sub;
+
+  // Chapter breakdown
+  const cr = document.getElementById('chapterResults');
+  cr.innerHTML = chapterScores.map(cs => {
+    const color = cs.pct >= 80 ? '#00c896' : cs.pct >= 60 ? '#0084ff' : cs.pct >= 40 ? '#f5a623' : '#ff4757';
+    const icon = cs.pct >= 80 ? '✓' : cs.pct >= 60 ? '◎' : cs.pct >= 40 ? '△' : '✗';
+    return `
+      <div class="chapter-result">
+        <div class="cr-status" style="color:${color}">${icon}</div>
+        <div class="cr-info">
+          <div class="cr-name">Kap. ${cs.id} — ${cs.title}</div>
+          <div class="cr-bar-track">
+            <div class="cr-bar-fill" style="width:${cs.pct}%;background:${color}"></div>
+          </div>
+          ${cs.criticalFails.length > 0 ? `<div style="font-size:0.72rem;color:#ff4757;margin-top:0.3rem">⚡ Kritische Lücken: ${cs.criticalFails.join(', ')}</div>` : ''}
+        </div>
+        <div class="cr-score" style="color:${color}">${cs.pct}%</div>
+      </div>
+    `;
+  }).join('');
+
+  // Export JSON for AI
+  const exportData = buildExport(chapterScores, overallPct);
+  document.getElementById('exportArea').textContent = JSON.stringify(exportData, null, 2);
+}
+
+function buildExport(chapterScores, overallPct) {
+  const details = CHAPTERS.map((ch, ci) => ({
+    chapter: ch.id,
+    title: ch.title,
+    score_pct: chapterScores[ci].pct,
+    questions: ch.questions.map((q, qi) => ({
+      id: q.id,
+      question: q.text,
+      score: answers[ci]?.[qi]?.score ?? 0,
+      score_label: OPTIONS[answers[ci]?.[qi]?.score ?? 0]?.label,
+      critical: q.critical,
+      comment: answers[ci]?.[qi]?.comment || null,
+    }))
+  }));
+
+  const gaps = details.flatMap(ch =>
+    ch.questions.filter(q => q.score < 2).map(q => ({
+      chapter: ch.chapter,
+      id: q.id,
+      critical: q.critical,
+      score: q.score,
+      question: q.question,
+      comment: q.comment,
+    }))
+  ).sort((a, b) => a.score - b.score || (b.critical - a.critical));
+
+  return {
+    meta: {
+      tool: "OnlineCert ISO 9001 Self-Audit",
+      version: "2025-v1",
+      date: companyData.date,
+      generated_for_ai_analysis: true,
+    },
+    company: companyData,
+    summary: {
+      overall_score_pct: overallPct,
+      total_questions: CHAPTERS.reduce((s, ch) => s + ch.questions.length, 0),
+      answered: Object.values(answers).flatMap(a => Object.values(a)).filter(a => a.score !== undefined).length,
+      critical_gaps: gaps.filter(g => g.critical && g.score < 2).length,
+      certification_ready: overallPct >= 80,
+    },
+    chapter_scores: chapterScores.map(cs => ({ chapter: cs.id, title: cs.title, pct: cs.pct, critical_fails: cs.criticalFails })),
+    gap_analysis: gaps,
+    full_details: details,
+  };
+}
+
+function copyExport() {
+  const text = document.getElementById('exportArea').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = '✓ Kopiert!';
+    setTimeout(() => btn.textContent = 'Daten kopieren', 2000);
+  });
+}
+
+function downloadJSON() {
+  const text = document.getElementById('exportArea').textContent;
+  const blob = new Blob([text], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `iso9001-audit-${companyData.name?.replace(/\s/g,'-') || 'export'}.json`;
+  a.click();
+}
+</script>
+</body>
+</html>

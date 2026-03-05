@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /.netlify/
+
+Sitemap: https://www.qm-guru.de/sitemap.xml

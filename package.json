@@ -1,0 +1,10 @@
+{
+  "name": "qm-guru-site",
+  "version": "1.0.0",
+  "description": "QM-Guru.de — ISO 9001 KI-Tools",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && echo 'Open dist/index.html'"
+  },
+  "dependencies": {}
+}
