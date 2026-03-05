@@ -4,38 +4,50 @@
 // Unterstützt Streaming (SSE) für Chat & Gap-Report
 // =============================================
 
-exports.handler = async function(event, context) {
+const { stream } = require('@netlify/functions');
+
+exports.handler = stream(async function(event, context) {
   // CORS preflight
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
+    return new Response('', {
+      status: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
       },
-      body: '',
-    };
+    });
   }
 
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return new Response('Method Not Allowed', { status: 405 });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return {
-      statusCode: 500,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'API Key not configured. Bitte in Netlify Environment Variables setzen.' }),
-    };
+    return new Response(
+      JSON.stringify({ error: 'API Key not configured. Bitte in Netlify Environment Variables setzen.' }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      }
+    );
   }
 
   let body;
   try {
     body = JSON.parse(event.body);
   } catch (e) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) };
+    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
   }
 
   // Security: only allow our model, cap tokens
@@ -64,50 +76,51 @@ exports.handler = async function(event, context) {
     // This prevents the frontend from showing an empty report with HTTP 200.
     if (!response.ok) {
       const text = await response.text().catch(() => '');
-      return {
-        statusCode: response.status,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-        body: JSON.stringify({
+      return new Response(
+        JSON.stringify({
           error: 'Upstream Anthropic error',
           status: response.status,
           details: text ? text.slice(0, 2000) : '',
         }),
-      };
+        {
+          status: response.status,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        }
+      );
     }
 
-    // For streaming: pipe through as SSE
+    // For streaming: pipe through immediately as SSE (no buffering).
     if (payload.stream) {
-      const text = await response.text();
-      return {
-        statusCode: 200,
+      return new Response(response.body, {
+        status: 200,
         headers: {
           'Content-Type': 'text/event-stream',
           'Access-Control-Allow-Origin': '*',
           'Cache-Control': 'no-cache',
         },
-        body: text,
-      };
+      });
     }
 
     // Non-streaming: return JSON
     const data = await response.json();
-    return {
-      statusCode: 200,
+    return new Response(JSON.stringify(data), {
+      status: 200,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify(data),
-    };
+    });
 
   } catch (err) {
-    return {
-      statusCode: 502,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: 'Proxy error: ' + err.message }),
-    };
+    return new Response(JSON.stringify({ error: 'Proxy error: ' + err.message }), {
+      status: 502,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
   }
-};
+});
