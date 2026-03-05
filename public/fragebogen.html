@@ -418,6 +418,49 @@
     margin-top: 0.4rem;
   }
 
+  .q-help {
+    margin-top: 0.65rem;
+  }
+
+  .q-help summary {
+    cursor: pointer;
+    user-select: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .q-help summary::-webkit-details-marker { display: none; }
+
+  .q-help summary::after {
+    content: '▸';
+    display: inline-block;
+    transform: translateY(-1px);
+    transition: transform 0.15s;
+    color: var(--text3);
+  }
+
+  .q-help[open] summary::after {
+    transform: rotate(90deg) translateX(1px);
+  }
+
+  .q-help-body {
+    margin-top: 0.55rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.82rem;
+    color: var(--text2);
+    line-height: 1.55;
+    white-space: pre-wrap;
+  }
+
   /* RADIO OPTIONS */
   .options {
     display: grid;
@@ -997,6 +1040,15 @@ let answers = {};
 let companyData = {};
 let currentChapter = 0;
 
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function startAudit() {
   const name = document.getElementById('companyName').value.trim();
   const email = document.getElementById('contactEmail').value.trim();
@@ -1032,7 +1084,13 @@ function buildChapters() {
         <div class="q-header">
           <span class="q-num">${q.id}</span>
           <div>
-            <div class="q-text">${q.text}${q.tip ? `<span class="tip" data-tip="${q.tip}">?</span>` : ''}</div>
+            <div class="q-text">${q.text}</div>
+            ${q.tip ? `
+              <details class="q-help">
+                <summary>Erklärung &amp; Beispiele</summary>
+                <div class="q-help-body">${escapeHtml(q.tip)}</div>
+              </details>
+            ` : ''}
             ${q.critical ? '<div class="q-critical">⚡ Kritisches Kriterium</div>' : ''}
           </div>
         </div>
@@ -1224,6 +1282,7 @@ function buildExport(chapterScores, overallPct) {
     questions: ch.questions.map((q, qi) => ({
       id: q.id,
       question: q.text,
+      tip: q.tip || null,
       score: answers[ci]?.[qi]?.score ?? 0,
       score_label: OPTIONS[answers[ci]?.[qi]?.score ?? 0]?.label,
       critical: q.critical,
