@@ -3,31 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QM-Guru KI-Berater | Holger Grosser</title>
-<meta name="description" content="Kostenlose KI-Beratung zu ISO 9001, 14001 und 45001. Wie Holger Grosser — 30 Jahre Erfahrung, 1.000+ Audits.">
+<title>QM-Guru KI-System | ISO 9001 Beratung & Zertifizierung</title>
+<meta name="description" content="Ihr QM-Guru KI-System für ISO 9001/14001/45001: klare Antworten, praxiserprobte Vorlagen und nächste Schritte. Termin vereinbaren oder Angebot einholen – ohne Rückruf.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* =====================
-   DESIGN: Refined Dark — autoritär, warm, professionell
-   wie ein erfahrener Berater im Büro
+  DESIGN: QM-Guru Light — klar, vertrauenswürdig, markenkonform
 ===================== */
 :root {
-  --bg: #0E0F0C;
-  --surface: #161714;
-  --surface2: #1E1F1B;
-  --surface3: #252620;
-  --border: #2A2B26;
-  --ink: #F0EFE8;
-  --ink2: #9A9A8A;
-  --ink3: #5A5A4A;
-  --green: #2E6B45;
-  --green-light: #3A8055;
-  --green-glow: rgba(46,107,69,0.15);
+  /* QM-Guru Light Palette (wie Startseite) */
+  --bg: #FAFAF7;
+  --surface: #FFFFFF;
+  --surface2: #F2F2EE;
+  --surface3: #FFFFFF;
+  --border: #E2E2DC;
+  --ink: #0D0D0B;
+  --ink2: #3D3D38;
+  --ink3: #8A8A80;
+
+  --green: #1A4D2E;
+  --green-light: #143D24;
+  --green-glow: rgba(26,77,46,0.12);
   --gold: #C8A84B;
-  --gold-light: rgba(200,168,75,0.1);
-  --user-bg: #1A2E22;
-  --user-border: rgba(46,107,69,0.3);
+  --gold-light: rgba(200,168,75,0.12);
+
+  --user-bg: #EBF4EE;
+  --user-border: rgba(26,77,46,0.22);
+
   --radius: 14px;
   --radius-sm: 8px;
   --max-w: 780px;
@@ -435,6 +438,18 @@ body {
   color: var(--ink);
 }
 
+.welcome-list {
+  text-align: left;
+  max-width: 520px;
+  margin: 0.25rem auto 1.25rem;
+  padding-left: 1.15rem;
+  color: var(--ink2);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.welcome-list li { margin-bottom: 0.35rem; }
+
 /* MESSAGE BUBBLES */
 .message {
   display: flex;
@@ -589,8 +604,8 @@ body {
 
 /* UPSELL CARD */
 .upsell-card {
-  background: linear-gradient(135deg, #1A2E22, #0E1E14);
-  border: 1px solid rgba(46,107,69,0.4);
+  background: var(--surface2);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.25rem 1.4rem;
   margin-top: 0.75rem;
@@ -720,31 +735,25 @@ body {
 <!-- QM-Guru Navigation -->
 <nav id="qmg-nav" style="
   position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
-  background: rgba(14,15,12,0.95);
+  background: rgba(250,250,247,0.96);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(226,226,220,0.9);
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 1.5rem; height: 52px;
   font-family: 'Manrope', 'Segoe UI', sans-serif;
 ">
   <div style="display:flex;align-items:center;gap:1rem;">
-    <a href="https://www.qm-guru.de" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7" title="Zurück zu QM-Guru.de">
-      <span style="font-size:0.7rem;color:#9A9A8A;">← qm-guru.de</span>
-    </a>
-    <span style="color:#2A2B26;">|</span>
-    <a href="/" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;">
-      <span style="width:26px;height:26px;background:#2E6B45;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.65rem;color:white;font-family:inherit;">QM</span>
-      <span style="font-weight:800;font-size:0.88rem;color:#F0EFE8;letter-spacing:-0.02em;">Tools</span>
-      <span style="font-size:0.65rem;color:#5A5A4A;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;">tools.qm-guru.de</span>
+    <a href="/ki-berater.html" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;">
+      <span style="width:26px;height:26px;background:#1A4D2E;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.65rem;color:white;font-family:inherit;">QM</span>
+      <span style="font-weight:800;font-size:0.88rem;color:#0D0D0B;letter-spacing:-0.02em;">KI-System</span>
+      <span style="font-size:0.65rem;color:#8A8A80;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;">QM-Guru.de</span>
     </a>
   </div>
   <div style="display:flex;gap:0.2rem;align-items:center;">
-    <a href="/" style="padding:0.38rem 0.7rem;border-radius:6px;font-size:0.76rem;color:#9A9A8A;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#F0EFE8';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.color='#9A9A8A';this.style.background='transparent'">Übersicht</a>
-    <a href="/fragebogen.html" style="padding:0.38rem 0.7rem;border-radius:6px;font-size:0.76rem;color:#9A9A8A;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#F0EFE8';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.color='#9A9A8A';this.style.background='transparent'">📋 Self-Audit</a>
-    <a href="/gap-report.html" style="padding:0.38rem 0.7rem;border-radius:6px;font-size:0.76rem;color:#9A9A8A;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#F0EFE8';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.color='#9A9A8A';this.style.background='transparent'">📊 Gap-Report</a>
-    <a href="/ki-berater.html" style="padding:0.38rem 0.7rem;border-radius:6px;font-size:0.76rem;color:#9A9A8A;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#F0EFE8';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.color='#9A9A8A';this.style.background='transparent'">🤖 KI-Berater</a>
-    <a href="mailto:info@qm-guru.de?subject=Kostenloses%20Erstgesprach" style="margin-left:0.4rem;padding:0.38rem 0.9rem;border-radius:6px;font-size:0.76rem;font-weight:600;color:white;background:#2E6B45;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#3A8055'" onmouseout="this.style.background='#2E6B45'">Erstgespräch</a>
+    <a href="/" style="padding:0.38rem 0.7rem;border-radius:6px;font-size:0.76rem;color:#3D3D38;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='#0D0D0B';this.style.background='rgba(26,77,46,0.08)'" onmouseout="this.style.color='#3D3D38';this.style.background='transparent'">Übersicht</a>
+    <a href="https://calendly.com/grosser-qmguru/termin-qm-system-iso-9001" style="margin-left:0.4rem;padding:0.38rem 0.9rem;border-radius:6px;font-size:0.76rem;font-weight:600;color:white;background:#1A4D2E;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#143D24'" onmouseout="this.style.background='#1A4D2E'">Termin vereinbaren</a>
+    <a href="https://qm-guru.de/iso-9001-kosten-berechnen/" style="padding:0.38rem 0.9rem;border-radius:6px;font-size:0.76rem;font-weight:600;color:#0D0D0B;background:#C8A84B;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.opacity=0.9" onmouseout="this.style.opacity=1">Angebot einholen</a>
   </div>
 </nav>
 <style>body { padding-top: 52px !important; }</style>
@@ -811,11 +820,8 @@ body {
     </div>
 
     <div class="sidebar-footer">
-      <a href="https://www.qm-guru.de" class="sidebar-link">🌐 QM-Guru.de</a>
-      <a href="/audit" class="sidebar-link">📊 Gap-Analyse starten</a>
-      <a href="mailto:info@qm-guru.de?subject=Kostenlose%20Erstberatung" class="btn-cta-sidebar">
-        📞 Kostenloses Erstgespräch
-      </a>
+      <a href="https://calendly.com/grosser-qmguru/termin-qm-system-iso-9001" class="sidebar-link">🗓 Termin vereinbaren</a>
+      <a href="https://qm-guru.de/iso-9001-kosten-berechnen/" class="btn-cta-sidebar">💶 Angebot einholen</a>
     </div>
   </aside>
 
@@ -849,6 +855,12 @@ body {
           30 Jahre Praxiserfahrung, über 1.000 Audits — jetzt als KI für Sie verfügbar.
           Stellen Sie mir Ihre Fragen zu ISO 9001, 14001 oder 45001. Ich antworte direkt, ohne Fachchinesisch.
         </p>
+        <ul class="welcome-list">
+          <li>Starten Sie mit: Branche, Mitarbeiterzahl, Standorte und ob Sie schon Dokumente haben.</li>
+          <li>Bitten Sie um: Prozesslandschaft (Kern-/Supportprozesse) + Verantwortlichkeiten.</li>
+          <li>Erstellen Sie mit mir: Risiko-/Chancenliste, Audit-Checkliste, Maßnahmenplan.</li>
+          <li>Fragen Sie nach: Minimal-Set an Pflichtdokumenten + sinnvollen Vorlagen.</li>
+        </ul>
         <div class="welcome-chips">
           <div class="chip" onclick="sendQuick('Wie lange dauert eine ISO 9001 Zertifizierung bei Ihnen?')">⏱ Wie lange dauert es?</div>
           <div class="chip" onclick="sendQuick('Was ist der Unterschied zwischen akkreditierter und nicht-akkreditierter Zertifizierung?')">🎓 Akkreditierung erklärt</div>
@@ -934,7 +946,7 @@ CHAT-REGELN:
 - Nutze deine echten Formulierungen aus der Wissensdatenbank
 - Frage nach Branche und Unternehmensgröße wenn relevant
 - Am Ende konkreter nächster Schritt wenn sinnvoll
-- Nach 3-4 fachlichen Fragen: Biete das kostenlose Erstgespräch an
+- Nach 3-4 fachlichen Fragen: Verweise auf Terminvereinbarung oder Angebot (kein Rückruf)
 - Signiere nie als "KI" oder "Claude" — du bist Holger Grosser
 ====================================
 
@@ -1026,12 +1038,11 @@ function addUpsell(afterId) {
   upsell.className = 'upsell-card';
   upsell.innerHTML = `
     <div class="upsell-text">
-      <strong>Persönliche Beratung gefällig?</strong><br>
-      60 Minuten mit Holger Grosser — kostenlos & unverbindlich. Danach wissen Sie genau, was zu tun ist.
+      <strong>Nächster Schritt?</strong><br>
+      Termin vereinbaren oder direkt ein Angebot anfordern — ohne Rückruf.
     </div>
-    <a href="mailto:info@qm-guru.de?subject=Erstgespräch%20nach%20KI-Chat" class="btn-upsell">
-      Jetzt anfragen →
-    </a>
+    <a href="https://calendly.com/grosser-qmguru/termin-qm-system-iso-9001" class="btn-upsell">Termin →</a>
+    <a href="https://qm-guru.de/iso-9001-kosten-berechnen/" class="btn-upsell" style="background: var(--gold); color: var(--ink);">Angebot →</a>
   `;
   msgEl.insertAdjacentElement('afterend', upsell);
   upsellShown = true;
