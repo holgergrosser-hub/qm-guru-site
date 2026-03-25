@@ -821,6 +821,84 @@ body {
 
 .char-count { transition: color 0.2s; }
 
+/* ===================== CONSENT (OPT-IN) ===================== */
+.consent-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(14, 15, 12, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.consent-card {
+  width: min(560px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem 1.25rem 1.1rem;
+}
+
+.consent-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+
+.consent-text {
+  color: var(--ink2);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 0.9rem;
+}
+
+.consent-check {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  color: var(--ink);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin-bottom: 0.9rem;
+}
+
+.consent-check input { margin-top: 0.25rem; }
+
+.consent-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.btn-consent {
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--green);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-consent:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.consent-small {
+  margin-top: 0.75rem;
+  color: var(--ink3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  line-height: 1.5;
+}
+
+.consent-small a { color: var(--gold); text-decoration: none; }
+.consent-small a:hover { text-decoration: underline; }
+
 /* ===================== MOBILE ===================== */
 @media (max-width: 768px) {
   .sidebar { display: none; }
@@ -831,6 +909,29 @@ body {
 </style>
 </head>
 <body>
+
+<!-- Opt-in Gate: Chat erst nach Einwilligung nutzbar -->
+<div class="consent-overlay" id="consentOverlay" role="dialog" aria-modal="true" aria-labelledby="consentTitle">
+  <div class="consent-card">
+    <div class="consent-title" id="consentTitle">Einwilligung für KI-Berater</div>
+    <p class="consent-text">
+      Damit Sie den KI‑Berater nutzen können, benötigen wir Ihre Einwilligung, die
+      <strong>Frage und die Antwort</strong> zur Qualitätsverbesserung zu speichern.
+      <strong>Es werden keine IP‑Adressen</strong> im Datensatz gespeichert.
+    </p>
+    <label class="consent-check">
+      <input type="checkbox" id="consentCheckbox" />
+      <span>Ich willige ein, dass meine Frage und die Antwort gespeichert werden.</span>
+    </label>
+    <div class="consent-actions">
+      <button class="btn-consent" id="consentAcceptBtn" disabled>Chat starten</button>
+    </div>
+    <div class="consent-small">
+      Infos: <a href="https://qm-guru.de/impressum/datenschutzerklarung/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a>
+    </div>
+  </div>
+</div>
+
 <!-- QM-Guru Navigation -->
 <nav id="qmg-nav" style="
   position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
@@ -1244,9 +1345,67 @@ function removeTyping() {
 }
 
 // =====================
+// CONSENT (Opt-in pro Tab)
+// =====================
+const QA_CONSENT_KEY = 'qmguru_qa_consent_v1';
+
+function hasQaConsent() {
+  try { return sessionStorage.getItem(QA_CONSENT_KEY) === '1'; } catch { return false; }
+}
+
+function setQaConsent() {
+  try { sessionStorage.setItem(QA_CONSENT_KEY, '1'); } catch {}
+}
+
+function showConsentOverlay() {
+  const ov = document.getElementById('consentOverlay');
+  if (ov) ov.style.display = 'flex';
+  const cb = document.getElementById('consentCheckbox');
+  if (cb) cb.focus();
+}
+
+function hideConsentOverlay() {
+  const ov = document.getElementById('consentOverlay');
+  if (ov) ov.style.display = 'none';
+}
+
+function applyConsentState() {
+  const ok = hasQaConsent();
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('sendBtn');
+  if (input) input.disabled = !ok;
+  if (btn) btn.disabled = !ok || isLoading;
+  if (ok) hideConsentOverlay(); else showConsentOverlay();
+}
+
+function initConsentGate() {
+  const cb = document.getElementById('consentCheckbox');
+  const accept = document.getElementById('consentAcceptBtn');
+  if (cb && accept) {
+    const update = () => { accept.disabled = !cb.checked; };
+    cb.addEventListener('change', update);
+    update();
+    accept.addEventListener('click', () => {
+      if (!cb.checked) return;
+      setQaConsent();
+      applyConsentState();
+      const input = document.getElementById('chatInput');
+      if (input) input.focus();
+    });
+  }
+  applyConsentState();
+}
+
+document.addEventListener('DOMContentLoaded', initConsentGate);
+
+// =====================
 // SEND MESSAGE
 // =====================
 async function sendMessage(text) {
+  if (!hasQaConsent()) {
+    showConsentOverlay();
+    return;
+  }
   const input = document.getElementById('chatInput');
   const msg = text || input.value.trim();
   if (!msg || isLoading) return;
@@ -1276,6 +1435,7 @@ async function sendMessage(text) {
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
         stream: true,
+        logConsent: true,
         system: sysPrompt,
         messages: conversation.slice(-12) // last 12 messages for context
       })

@@ -14,3 +14,14 @@
 ## API Key
 Gap-Report und KI-Berater benötigen einen Anthropic API Key.
 Dieser wird im Browser des Nutzers eingegeben — NICHT im Code speichern!
+
+## Q&A Logging (optional, mit Opt-in)
+Der KI-Berater kann – **nur nach aktivem Opt-in des Nutzers** – die **Frage und die Antwort** serverseitig an einen Webhook senden (z.B. Google Sheets via Apps Script).
+
+### Netlify Environment Variables
+- `QA_LOG_WEBHOOK_URL` – Ziel-Webhook-URL (z.B. Google Apps Script Web App URL)
+- `QA_LOG_WEBHOOK_TOKEN` – optionales Shared Secret (wird als `token=...` an die URL angehängt; zusätzlich als `Authorization: Bearer ...` gesendet)
+
+### Hinweis
+- Es werden im Payload nur `question` und `answer` gesendet.
+- Wenn `QA_LOG_WEBHOOK_URL` nicht gesetzt ist, wird nichts geloggt.
